@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/elastic/beats/libbeat/beat"
-	"github.com/elastic/beats/x-pack/metricbeat/module/ibmmq/util"
+	"github.com/ChrsMark/ibm_client_plugin/util"
 )
 
 func CollectQmgrMetricset(a string, b string, c []byte) ([]beat.Event, error) {
