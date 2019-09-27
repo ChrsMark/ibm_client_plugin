@@ -1,0 +1,42 @@
+#!/bin/sh
+#---------------------------------------------------------------------------
+#   <copyright
+#   notice="lm-source-program"
+#   pids="5724-H72"
+#   years="2017"
+#   crc="2530627716" >
+#   Licensed Materials - Property of IBM
+#
+#   5724-H72
+#
+#   (C) Copyright IBM Corp. 2017 All Rights Reserved.
+#
+#   US Government Users Restricted Rights - Use, duplication or
+#   disclosure restricted by GSA ADP Schedule Contract with
+#   IBM Corp.
+#   </copyright>
+#---------------------------------------------------------------------------
+# Set the platform specific default installation directory
+os=`uname`
+
+case $os in
+AIX)
+  MQ_INSTALLATION_PATH=$(dirname "$0")/..
+  CRTMQENV_FLAGS="-s -k"
+  ;;
+
+*)
+  MQ_INSTALLATION_PATH=$(dirname "$0")/..
+  CRTMQENV_FLAGS="-s"
+  ;;
+esac
+
+# Call crtmqenv to set up the environment for this installation.
+eval `"$MQ_INSTALLATION_PATH/bin/crtmqenv" $CRTMQENV_FLAGS`
+
+# Get the version of the JRE.
+JREVER=`$MQ_JRE_PATH/bin/java -fullversion 2>&1`
+
+echo "Name:        IBM MQ Java Runtime Environment"
+echo "Version:     $JREVER"
+echo "Location:    file:$MQ_JRE_PATH"

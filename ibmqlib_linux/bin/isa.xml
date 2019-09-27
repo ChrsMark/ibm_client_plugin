@@ -1,0 +1,1448 @@
+<?xml version="1.0"?>
+
+<!--
+    <copyright
+ notice="lm-source-program"
+ pids="5724-H72,"
+ years="2011,2018"
+ crc="3504564584" >
+Licensed Materials - Property of IBM
+
+5724-H72,
+
+(C) Copyright IBM Corp. 2011, 2018 All Rights Reserved.
+
+US Government Users Restricted Rights - Use, duplication or
+disclosure restricted by GSA ADP Schedule Contract with
+IBM Corp.
+ </copyright>
+ -->
+
+<!--
+    SCCSID = @(#) MQMBID sn=p911-L181120.1 su=_YQvs9ezZEeidp6nbu5WJxQ pn=cmd/cs/isa.xml.pre
+ -->
+
+<body>
+
+<commands platform="HP-UX">
+<!-- The working directory does not have write permission for group members.
+     "chmod" is required to work around this permission problem.
+ -->
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/dspmqver" args="-f 722" output="stamp_dspmqver"/>
+    <command name="MQBIN::/mqcertck" args="QM::" qm="*" output="mqcertck_SQM::"/>
+    <command name="/bin/uname" args="-n" output="stamp_hostname"/>
+    <command name="MQBIN::/dspmqver" output="dspmqver"/>
+    <command name="MQBIN::/dspmqver" args="-p 15" output="dspmqver_-p_15"/>
+    <command name="MQBIN::/dspmqver" args="-a" output="dspmqver_-a"/>
+    <command name="MQBIN::/dspmqver" args="-i" output="dspmqver_i"/>
+    <command name="MQBIN::/dspmqinst" output="dspmqinst"/>
+    <command name="/usr/bin/gsk7ver" output="gsk7ver"/>
+    <command name="/usr/bin/gsk75ver" output="gsk75ver"/>
+    <command name="/usr/bin/gsk8ver" output="gsk8ver"/>
+    <command name="MQBIN::/dspmq" args="-o all -x" output="dspmq"/>
+    <command name="MQBIN::/mqconfig" output="mqconfig"/>
+    <command name="/bin/ipcs" args="-c" output="ipcs_c"/>
+    <command name="/bin/ipcs" args="-t" output="ipcs_t"/>
+    <command name="/bin/ipcs" args="-a" output="ipcs_a"/>
+    <command name="/bin/ls" args="-iaRl MQD::" output="datafiles"/>
+    <command name="/bin/ls" args="-iaRl QMD::" qm="*" output="datafiles_SQM::"/>
+    <command name="/bin/ls" args="-iaRl MQD::/errors" output="errors"/>
+    <command name="/bin/ps" args="-efl" output="ps_efl"/>
+    <command name="/bin/ls" args="-iaRl MQ::/amqp" output="amqpfiles"/>
+    <command name="/bin/ls" args="-iaRl MQBIN::" output="binfiles"/>
+    <command name="/bin/ls" args="-iaRl MQ::/lib" output="libfiles"/>
+    <command name="/bin/ls" args="-iaRl MQ::/lib64" output="lib64files"/>
+    <command name="/bin/ls" args="-iaRl MQ::/java/lib" output="javalibfiles"/>
+    <command name="/bin/ls" args="-iaRl MQ::/java/lib64" output="javalib64files"/>
+    <command name="/bin/ls" args="-iaRl MQ::/properties" output="propertiesFiles"/>
+    <command name="/bin/ls" args="-al /usr/lib/*mq*" output="usrlibsymlinks"/>
+    <command name="/bin/ls" args="-al /usr/lib/*gsk*" output="usrlibsymlinksGsk"/>
+    <command name="/bin/find" args="MQ::/amqp -type f -print -exec /bin/sum {} \;" output="amqpfiles_sum"/>
+    <command name="/bin/find" args="MQBIN:: -type f -print -exec /bin/sum {} \;" output="binfiles_sum"/>
+    <command name="/bin/find" args="MQ::/lib -type f -print -exec /bin/sum {} \;" output="libfiles_sum"/>
+    <command name="/bin/find" args="MQ::/lib64 -type f -print -exec /bin/sum {} \;" output="lib64files_sum"/>
+    <command name="/bin/find" args="MQ::/java/lib -type f -print -exec /bin/sum {} \;" output="javalibfiles_sum"/>
+    <command name="/bin/find" args="MQ::/java/lib64 -type f -print -exec /bin/sum {} \;" output="javalib64files_sum"/>
+    <command name="MQBIN::/amqoamd" args="-m QM::" qm="*" output="amqoamd_SQM::" env="mq"/>
+    <command name="MQBIN::/dmpmqaut" args="-m QM::" qm="*" output="dmpmqaut_SQM::" />
+    <command name="/bin/uname" args="-a" output="uname"/>
+    <command name="/sbin/mount" output="mount"/>
+    <command name="/bin/df" args="-k" output="df"/>
+    <command name="MQBIN::/amqicdir" args="-a" output="amqicdir-a"/>
+    <command name="/bin/id" args="mqm" output="idmqm"/>
+    <command name="/bin/netstat" args="-an" output="netstat-an"/>
+    <command name="/bin/netstat" args="-i" output="netstat-i"/>
+    <command name="/bin/netstat" args="-s" output="netstat-s"/>
+    <command name="/usr/sbin/swlist" args="-l fileset" output="swlistl"/>
+    <command name="/usr/sbin/swlist" args="-l fileset gsk\* MQSERIES" output="swlistgsk"/>
+    <command name="/usr/bin/model" output="usrbinmodel"/>
+    <command name="/usr/sbin/kctune" output="usrsbinkctune"/>
+    <command name='cd' args='"MQD::/errors"&amp;&amp;"MQBIN::/ffstsummary"' output="ffstSummary" timeout="30"/>
+    <command name="uptime" output="uptime"/>
+    <command name="env" output="env"/>
+</commands>
+
+<files platform="HP-UX">
+    <file path="MQD::/errors" detail="*"/>
+    <file path="MQD::/exits" detail="*.log" recursive="yes"/>
+    <file path="MQD::/exits64" detail="*.log" recursive="yes"/>
+    <file path="MQD::" detail="mqs.ini"/>
+    <file path="QMD::" qm="*" detail="qm.ini"/>
+    <file path="QMD::" qm="*" detail="qmstatus.ini"/>
+    <file path="QMD::" qm="*" detail="amqalchk.fil"/>
+    <file path="QMD::" qm="*" detail="mqxr.*"/>
+    <file path="QMD::" qm="*" detail="amqp.*"/>
+    <file path="QMD::/errors" qm="*" detail="*"/>
+    <file path="QML::" qm="*" detail="amqhlctl.lfh"/>
+    <file path="/etc/opt/mqm" detail="mqinst.ini" />
+    <file path="MQ::" detail="mqpatch.dat" />
+    <file path="MQ::" detail="mqpatch.log" />
+    <file path="MQD::/mqxr/config" detail="*"/>
+</files>
+
+<commands platform="HP-UX" section="cluster">
+    <command name='"MQBIN::/amqrfdm"' args="-m QM:: -d" qm="*" output="amqrfdm_SQM::"/>
+    <command name='"MQBIN::/amqrfdm"' args="-m QM:: -h ZIP::" qm="*" output="amqrfdm_h_SQM::"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.REPOSITORY.QUEUE -da -F ZIP::SCRQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCRQ" />
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.COMMAND.QUEUE -da -F ZIP::SCCQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCCQ" />
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.TRANSMIT.QUEUE -da -F ZIP::SCTQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCTQ" />
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.HISTORY.QUEUE -da -F ZIP::SCHQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCHQ" />
+</commands>
+
+<commands platform="HP-UX" section="defs">
+    <command name="echo" args='"DIS QMGR ALL" | "MQBIN::/runmqsc" QM::' qm="*"           output="runmqsc_QMGR_SQM::"/>
+    <command name="echo" args='"DIS AUTHINFO(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_AUTHINFO_SQM::"/>
+    <command name="echo" args='"DIS CHANNEL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_CHANNEL_SQM::"/>
+    <command name="echo" args='"DIS QLOCAL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QLOCAL_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_CHS_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) SAVED ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_SAVED_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(AMQP) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_AMQP_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(AMQP) CLIENTID(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_AMQP_CLI_SQM::"/>
+    <command name="echo" args='"DIS CLUSQMGR(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_CLUSQMGR_SQM::"/>
+    <command name="echo" args='"DIS PROCESS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_PROCESS_SQM::"/>
+    <command name="echo" args='"DIS NAMELIST(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_NAMELIST_SQM::"/>
+    <command name="echo" args='"DIS QALIAS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QALIAS_SQM::"/>
+    <command name="echo" args='"DIS QCLUSTER(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_QCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS QMODEL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QMODEL_SQM::"/>
+    <command name="echo" args='"DIS QREMOTE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QREMOTE_SQM::"/>
+    <command name="echo" args='"DIS QUEUE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_QUEUE_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) TYPE(HANDLE) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_HANDLE_SQM::"/>
+    <command name="echo" args='"DIS CONN(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"      output="runmqsc_CONN_SQM::"/>
+    <command name="echo" args='"DIS SERVICE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_SERVICE_SQM::"/>
+    <command name="echo" args='"DIS LISTENER (*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_LISTENER_SQM::"/>
+    <command name="echo" args='"DIS SVSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_SVSTATUS_SQM::"/>
+    <command name="echo" args='"DIS LSSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_LSSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QMSTATUS ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_QMSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TOPIC(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_TOPIC_SQM::"/>
+    <command name="echo" args='"DIS TCLUSTER(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS SUB(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_SUB_SQM::"/>
+    <command name="echo" args='"DIS SBSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_SBSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(SUB) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_SUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(PUB) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_PUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(TOPIC) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_TOPIC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS PUBSUB ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_PUBSUB_SQM::"/>
+    <command name="echo" args='"DIS AUTHREC ALL" | "MQBIN::/runmqsc" QM::' qm="*"      output="runmqsc_AUTHREC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS AUTHSERV ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_AUTHSERV_SQM::"/>
+    <command name="echo" args='"DIS CHLAUTH(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_CHLAUTH_SQM::"/>
+    <command name="echo" args='"DIS COMMINFO(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_COMMINFO_SQM::"/>
+    <command name="echo" args='"DIS POLICY(*)" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_POLICY_SQM::"/>
+</commands>
+
+<commands platform="HP-UX" section="cs">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqspdbg" args="-m QM:: -f ZIP::amqspdbg_SQM::.out" qm="*" output="amqspdbg_SQM::"/>
+</commands>
+
+<commands platform="HP-UX" section="kernel">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c K -d 15 -f ZIP::amqldmpa_kernel_SQM::.out" qm="*" output="amqldmpa_kernel_SQM::"/>
+</commands>
+
+<commands platform="HP-UX" section="dap">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -d 15 -f ZIP::amqldmpa_dap_SQM::.out" qm="*" output="amqldmpa_dap_SQM::"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -o 2 -d 15 -f ZIP::amqldmpa_dap_atm_SQM::.out" qm="*" output="amqldmpa_dap_atm_SQM::"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -o 4 -d 15 -f ZIP::amqldmpa_dap_alm_SQM::.out" qm="*" output="amqldmpa_dap_alm_SQM::"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -o 16 -d 15 -f ZIP::amqldmpa_dap_aoc_SQM::.out" qm="*" output="amqldmpa_dap_aoc_SQM::"/>
+</commands>
+
+<commands platform="HP-UX" section="topic">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c T -d 15 -f ZIP::amqldmpa_topic_SQM::.out" qm="*" output="amqldmpa_topic_SQM::"/>
+</commands>
+
+<commands platform="HP-UX" section="logger">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c H -d 15 -f ZIP::amqldmpa_logger_SQM::.out" qm="*" output="amqldmpa_logger_SQM::"/>
+</commands>
+
+<commands platform="HP-UX" section="selector">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c S -d 15 -f ZIP::amqldmpa_selector_SQM::.out" qm="*" output="amqldmpa_selector_SQM::"/>
+</commands>
+
+<commands platform="HP-UX" section="format">
+    <command name='cd' args="MQD::/trace&amp;&amp;dspmqtrc *  " output="dspmqtrc" timeout="0"/>
+</commands>
+
+<files platform="HP-UX" section="QMGR">
+    <file path="QMD::/" qm="*" detail="*" recursive="yes"/>
+    <file path="QML::/" qm="*" detail="*" recursive="yes"/>
+</files>
+
+<files platform="HP-UX" section="trace">
+    <file path="MQD::/trace" detail="*"/>
+</files>
+
+<commands platform="HP-UX" section="mft">
+  <command name="fteRAS" output="fteras"/>
+</commands>
+
+<files platform="HP-UX" section="mft">
+  <file path="MQD::/mqft/logs" detail="*"/>
+</files>
+
+<commands platform="HP-UX" section="leak">
+  <command name="ps" args="-ef | egrep 'amqzlaa0|amqrmppa' | grep -v grep | awk '{ print $2 }' | xargs -I {} pmap -x {}" output="pmap-leak"/>
+  <command name="MQBIN::/amqspdbg" args="-m QM:: -v detail -f ZIP::amqspdbg-v_SQM::.out" qm="*" output="amqspdbg-v_SQM::"/>
+</commands>
+
+
+<commands platform="Linux">
+<!-- The working directory does not have write permission for group members.
+     "chmod" is required to work around this permission problem.
+ -->
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/dspmqver"' args="-f 722" output="stamp_dspmqver"/>
+    <command name='"MQBIN::/mqcertck"' args="QM::" qm="*" output="mqcertck_SQM::"/>
+    <command name="/bin/uname" args="-n" output="stamp_hostname"/>
+    <command name='"MQBIN::/dspmqver"' output="dspmqver"/>
+    <command name='"MQBIN::/dspmqver"' args="-p 15" output="dspmqver_-p_15"/>
+    <command name='"MQBIN::/dspmqver"' args="-a" output="dspmqver_-a"/>
+    <command name='"MQBIN::/dspmqver"' args="-i" output="dspmqver_i" env="!mqappliance"/>
+    <command name='"MQBIN::/dspmqver"' args="-p 64 -v" output="dspmqver_-p_64" env="mq"/>
+    <command name='"MQBIN::/dspmqinst"' output="dspmqinst" env="mq"/>
+    <command name="/usr/bin/gsk7ver" output="gsk7ver" env="mq"/>
+    <command name="/usr/bin/gsk75ver" output="gsk75ver" env="mq"/>
+    <command name="/usr/bin/gsk8ver" output="gsk8ver" env="mq"/>
+    <command name='"MQBIN::/dspmq"' args="-o all" output="dspmq" env="mqappliance"/>
+    <command name='"MQBIN::/dspmq"' args="-o all -x" output="dspmq" env="!mqappliance"/>
+    <command name='"MQBIN::/mqconfig"' output="mqconfig"/>
+    <command name='"MQBIN::/dsphalink"' output="dsphalink" env="mqappliance"/>
+    <command name='"MQBIN::/dspdrlink"' output="dspdrlink" env="mqappliance"/>
+    <command name="/usr/bin/ipcs" args="-c" output="ipcs_c"/>
+    <command name="/usr/bin/ipcs" args="-l" output="ipcs_l"/>
+    <command name="/usr/bin/ipcs" args="-t" output="ipcs_t"/>
+    <command name="/usr/bin/ipcs" args="-u" output="ipcs_u"/>
+    <command name="/usr/bin/ipcs" args="-a" output="ipcs_a"/>
+    <command name="/bin/ls" args='-iaRl "MQD::"' output="datafiles"/>
+    <command name="/bin/ls" args="-iaRl QMD::" qm="*" output="datafiles_SQM::"/>
+    <command name="/bin/ls" args='-iaRl "MQD::/errors"' output="errors"/>
+    <command name="/bin/ps" args="-efl" output="ps_efl"/>
+    <command name="/bin/ps" args="-eo pid,ppid,nlwp,s,vsz,pmem,pcpu,start,time=CPUTIME, -o user=EUSER -o egroup,ruser,rgroup,args" output="ps_eo"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/amqp"' output="amqpfiles"/>
+    <command name="/bin/ls" args='-iaRl "MQBIN::"' output="binfiles"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/lib"' output="libfiles"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/lib64"' output="lib64files"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/java/lib"' output="javalibfiles"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/java/lib64"' output="javalib64files"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/properties"' output="propertiesFiles"/>
+    <command name="/bin/ls" args="-al /usr/lib/*mq*" output="usrlibsymlinks"/>
+    <command name="/bin/ls" args="-al /usr/lib/*gsk*" output="usrlibsymlinksGsk" env="mq"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/mqexplorer"' output="explorerFiles" env="mq"/>
+    <command name="/usr/bin/find" args='"MQ::/amqp" -type f -print -exec /usr/bin/sum {} \;' output="amqpfiles_sum"/>
+    <command name="/usr/bin/find" args='"MQBIN::" -type f -print -exec /usr/bin/sum {} \;' output="binfiles_sum"/>
+    <command name="/usr/bin/find" args='"MQ::/lib" -type f -print -exec /usr/bin/sum {} \;' output="libfiles_sum"/>
+    <command name="/usr/bin/find" args='"MQ::/lib64" -type f -print -exec /usr/bin/sum {} \;' output="lib64files_sum"/>
+    <command name="/usr/bin/find" args='"MQ::/java/lib" -type f -print -exec /usr/bin/sum {} \;' output="javalibfiles_sum"/>
+    <command name="/usr/bin/find" args='"MQ::/java/lib64" -type f -print -exec /usr/bin/sum {} \;' output="javalib64files_sum"/>
+    <command name='"MQBIN::/amqoamd"' args="-m QM::" qm="*" output="amqoamd_SQM::" env="mq"/>
+    <command name='"MQBIN::/dmpmqaut"' args="-m QM::" qm="*" output="dmpmqaut_SQM::" />
+    <command name="/bin/uname" args="-a" output="uname"/>
+    <command name="/bin/mount" output="mount"/>
+    <command name="/bin/df" args="-k" output="df"/>
+    <command name='"MQBIN::/amqicdir"' args="-a" output="amqicdir-a" env="mq"/>
+    <command name="/usr/bin/id" args="mqm" output="idmqm" env="mq"/>
+    <command name="/bin/netstat" args="-anp" output="netstat-anp" env="!mqappliance"/>
+    <command name="/bin/netstat" args="-i" output="netstat-i" env="!mqappliance"/>
+    <command name="/bin/netstat" args="-s" output="netstat-s" env="!mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="/bin/netstat -anp" output="netstat-anp" env="mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="/bin/netstat -i" output="netstat-i" env="mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="/bin/netstat -s" output="netstat-s" env="mqappliance"/>
+    <command name="/sbin/ethtool" args="-i eth10" output="ethtool-i-eth10" env="mqappliance"/>
+    <command name="/sbin/ethtool" args="-i eth20" output="ethtool-i-eth20" env="mqappliance"/>
+    <command name="/bin/rpm" args='-qa --queryformat "%{name}|version:\"%{VERSION}-%{RELEASE}\"|vendor:\"%{VENDOR}\"|arch:\"%{ARCH}\"|installtime:\"%{INSTALLTIME:date}\"|prefix:\"%{INSTPREFIXES}\"\n" | /bin/egrep "^gsk|^MQSeries|^mqsi" | awk -F"|" &apos;{ printf("%-30s%-22s%-15s%-18s%-49s%s\n", $1, $2, $3, $4, $5, $6);}&apos; | sort -k2' output="binrpm" env="mq"/>
+    <command name="dpkg" args="-l" output="dpkgall"/>
+    <command name="dpkg" args="-l ibmmq*" output="dpkgmq"/>
+    <command name='cd' args='"MQD::/errors"&amp;&amp;"MQBIN::/ffstsummary"' output="ffstSummary" timeout="30"/>
+    <command name="uptime" output="uptime"/>
+    <command name="env" output="env"/>
+    <command name="/bin/cat" args="/proc/self/mounts" output="mountedfilesystems" env="mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="/sbin/vgdisplay mqmvg" output="vgdisplaymqmvg" env="mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="/sbin/lvdisplay mqmvg" output="lvdisplaymqmvg" env="mqappliance"/>
+    <command name="ip" args="-o link show | awk -F': ' '{print $2}' | xargs -I {} ethtool {}" output="ethtool" env="mqappliance"/>
+    <command name="ip" args="-o link show | awk -F': ' '{print $2}' | xargs -t -I {} ethtool -i {} 2&gt;&amp;1" output="ethtool-i" env="mqappliance"/>
+    <command name="/sbin/sysctl" args="-a" output="sysctl-a"/>
+    <command name="/usr/sbin/sestatus" output="selinux-status"/>
+    <command name="/usr/bin/id" args="-Z" output="selinux-id-Z"/>
+    <command name="/bin/ps" args="-efZ" output="selinux-ps-efZ"/>
+    <command name="/bin/dpinfo" args="--version" output="dpinfo" env="mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="runcheck -a" output="runcheck-a" env="mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="/sbin/lvs -a" output="lvs-a" env="mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="/usr/sbin/pcs cluster cib" output="pcsClusterCib" env="mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="/usr/sbin/pcs config" output="pcs-config" env="mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="/usr/sbin/pcs status" output="pcs-status" env="mqappliance"/>
+    <command name="/opt/mqm/bin/mqsudo" args="getCoreFiles" output="getCoreFiles" env="mqappliance"/>
+    <command name="/usr/sbin/drbdadm" args="dump" output="drbdadm-dump" env="mqappliance"/>
+    <command name="/sbin/ip" args="addr show" output="ip_addr_show" env="mqappliance"/>
+    <command name="/usr/sbin/vgs" output="vgs" env="rdqm"/>
+    <command name="/usr/sbin/lvs" output="lvs" env="rdqm"/>
+    <command name="/usr/sbin/ip" args="address" output="ip-address" env="rdqm"/>
+    <command name="/usr/sbin/ip" args="route" output="ip-route" env="rdqm"/>
+    <command name="/usr/sbin/ip" args="rule" output="ip-rule" env="rdqm"/>
+    <command name="/usr/sbin/tc" args="qdisc" output="tc-qdisc" env="rdqm"/>
+    <command name="/usr/sbin/cibadmin" args="--query" output="cibadmin" env="rdqm"/>
+    <command name="/usr/sbin/crm" args="config show" output="crm-config" env="rdqm"/>
+    <command name="/usr/sbin/crm" args="status" output="crm-status" env="rdqm"/>
+    <command name="/usr/sbin/drbdadm" args="dump" output="drbdadm-dump" env="rdqm"/>
+    <command name="/usr/sbin/drbdadm" args="status" output="drbdadm-status" env="rdqm"/>
+    <command name="/sbin/drbdsetup" args=" events2 --statistics --now all" output="drbdsetup-events2" env="rdqm"/>
+    <command name="MQBIN::/rdqmadm" args="-x" output="rdqmadm-x" env="rdqm"/>
+    <command name="MQBIN::/rdqmadm" args="-xr WorkDir::/crm_report" output="rdqmadm-xr" timeout="0" env="rdqm"/>
+    <command name="ps" args="-ef | grep 'mq' | grep -v grep | awk '{ print $2 }' | xargs -I {} strings -f /proc/{}/environ" output="environ_mq"/>
+</commands>
+
+<files platform="Linux">
+    <file path="MQD::/errors" detail="*"/>
+    <file path="MQD::" detail="mqs.ini"/>
+    <file path="QMD::" qm="*" detail="qm.ini"/>
+    <file path="QMD::" qm="*" detail="qmstatus.ini"/>
+    <file path="QMD::" qm="*" detail="amqalchk.fil"/>
+    <file path="QMD::" qm="*" detail="mqxr.*" />
+    <file path="QMD::/" qm="*" detail="amqp.*"/>
+    <file path="QMD::/ssl" qm="*" detail="keystore.conf" />
+    <file path="QMD::/errors" qm="*" detail="*"/>
+    <file path="MQD::/exits" detail="*.log"  recursive="yes"/>
+    <file path="MQD::/exits64" detail="*.log"  recursive="yes"/>
+    <file path="QML::" qm="*" detail="amqhlctl.lfh"/>
+    <file path="/etc" detail="redhat-release" env="mq"/>
+    <file path="/etc" detail="suse-release" env="mq"/>
+    <file path="$HOME/IBM/MQ/workspace-MQI::/.metadata/" detail=".log" env="mq"/>
+    <file path="$HOME/IBM/MQ/workspace-MQI::/.metadata/.plugins/com.ibm.mq.explorer.ui" detail="*" env="mq"/>
+    <file path="/etc/opt/mqm" detail="mqinst.ini" />
+    <file path="MQ::" detail="mqpatch.dat" />
+    <file path="MQ::" detail="mqpatch.log" />
+    <file path="MQD::/mqxr/config" detail="*"/>
+    <file path="/etc/cluster" detail="cluster.conf" env="mqappliance"/>
+    <file path="/etc/corosync" detail="corosync.conf" env="mqappliance"/>
+    <file path="MQD::" detail="backupcib.xml" env="mqappliance"/>
+    <file path="MQD::" detail="backupcib.xml.sig" env="mqappliance"/>
+    <file path="MQD::" detail="backupcluster.conf" env="mqappliance"/>
+    <file path="MQD::" detail="initialmigratedcib.xml" env="mqappliance"/>
+    <file path="MQD::" detail="oldbackupcib.xml" env="mqappliance"/>
+    <file path="MQD::" detail="oldbackupcib.xml.sig" env="mqappliance"/>
+    <file path="MQD::" detail="oldbackupcluster.conf" env="mqappliance"/>
+    <file path="/etc" detail="drbd.conf" env="mqappliance"/>
+    <file path="/etc/drbd.d" detail="*" env="mqappliance"/>
+    <file path="MQD::/trace/webui" detail="*" env="mqappliance"/>
+    <file path="MQD::/trace/webui/ffdc" detail="*" env="mqappliance"/>
+    <file path="MQD::/trace/webui/FFDC" detail="*" env="mqappliance"/>
+    <file path="/var/log/cluster" detail="*" env="mqappliance"/>
+    <file path="MQD::/trace" detail="*.fmt" env="mqappliance"/>
+    <file path="MQD::/trace" detail="*.m-fmt" env="mqappliance"/>
+    <file path="MQD::/trace" detail="*.h-fmt" env="mqappliance"/>
+    <file path="MQD::/trace" detail="*.s-fmt" env="mqappliance"/>
+    <file path="MQD::/trace" detail="*.c-fmt" env="mqappliance"/>
+    <file path="MQD::/trace" detail="*.archived" env="mqappliance"/>
+    <file path="MQD::/trace" detail="*.gz" env="mqappliance"/>
+    <file path="MQD::/trace" detail="*.tar" env="mqappliance"/>
+    <file path="/proc" detail="drbd" env="mqappliance"/>
+    <file path="/etc/ssh" detail="sshd_config" env="mqappliance"/>
+    <file path="/tmp/errors" detail="*" env="mqappliance"/>
+    <file path="MQD::/qmgrs" detail="appliance.ini*" recursive="yes" env="mqappliance"/>
+    <file path="/etc" detail="agglinks" env="mqappliance"/>
+    <file path="/etc/corosync" detail="corosync.conf" env="rdqm"/>
+    <file path="/etc" detail="drbd.conf" env="rdqm"/>
+    <file path="/etc/drbd.d" detail="*" env="rdqm"/>
+    <file path="MQD::" detail="rdqm.ini" env="rdqm"/>
+    <file path="MQD::/diag" detail="core.*" env="mqappliance"/>
+    <file path="MQD::/web" detail="*" recursive="yes" env="!mqappliance"/>
+    <file path="/monitor" detail="*" recursive="yes" env="mqappliance"/>
+    <file path="/drouter/log" detail="svrsegv*" env="mqappliance"/>
+</files>
+
+<commands platform="Linux" section="cluster">
+    <command name='"MQBIN::/amqrfdm"' args="-m QM:: -d" qm="*" output="amqrfdm_SQM::" env="mq"/>
+    <command name='"MQBIN::/amqrfdm"' args="-m QM:: -h ZIP::" qm="*" output="amqrfdm_h_SQM::" env="mq"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.REPOSITORY.QUEUE -da -F ZIP::SCRQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCRQ" env="mq"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.COMMAND.QUEUE -da -F ZIP::SCCQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCCQ" env="mq"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.TRANSMIT.QUEUE -da -F ZIP::SCTQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCTQ" env="mq"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.HISTORY.QUEUE -da -F ZIP::SCHQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCHQ" env="mq"/>
+</commands>
+
+<commands platform="Linux" section="defs">
+    <command name="echo" args='"DIS QMGR ALL" | "MQBIN::/runmqsc" QM::' qm="*"           output="runmqsc_QMGR_SQM::"/>
+    <command name="echo" args='"DIS AUTHINFO(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_AUTHINFO_SQM::"/>
+    <command name="echo" args='"DIS CHANNEL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_CHANNEL_SQM::"/>
+    <command name="echo" args='"DIS CHANNEL(*) CHLTYPE(MQTT) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHANNEL_MQTT_SQM::"/>
+    <command name="echo" args='"DIS QLOCAL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QLOCAL_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_CHS_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) SAVED ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_SAVED_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(MQTT) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_MQTT_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(MQTT) CLIENTID(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_MQTT_CLI_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(AMQP) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_AMQP_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(AMQP) CLIENTID(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_AMQP_CLI_SQM::"/>
+    <command name="echo" args='"DIS CLUSQMGR(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_CLUSQMGR_SQM::"/>
+    <command name="echo" args='"DIS PROCESS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_PROCESS_SQM::"/>
+    <command name="echo" args='"DIS NAMELIST(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_NAMELIST_SQM::"/>
+    <command name="echo" args='"DIS QALIAS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QALIAS_SQM::"/>
+    <command name="echo" args='"DIS QCLUSTER(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_QCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS QMODEL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QMODEL_SQM::"/>
+    <command name="echo" args='"DIS QREMOTE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QREMOTE_SQM::"/>
+    <command name="echo" args='"DIS QUEUE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_QUEUE_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) TYPE(HANDLE) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_HANDLE_SQM::"/>
+    <command name="echo" args='"DIS CONN(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"      output="runmqsc_CONN_SQM::"/>
+    <command name="echo" args='"DIS SERVICE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_SERVICE_SQM::"/>
+    <command name="echo" args='"DIS LISTENER (*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_LISTENER_SQM::"/>
+    <command name="echo" args='"DIS SVSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_SVSTATUS_SQM::"/>
+    <command name="echo" args='"DIS LSSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_LSSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QMSTATUS ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_QMSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TOPIC(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_TOPIC_SQM::"/>
+    <command name="echo" args='"DIS TCLUSTER(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS SUB(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_SUB_SQM::"/>
+    <command name="echo" args='"DIS SBSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_SBSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(SUB) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_SUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(PUB) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_PUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(TOPIC) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_TOPIC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS PUBSUB ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_PUBSUB_SQM::"/>
+    <command name="echo" args='"DIS AUTHREC ALL" | "MQBIN::/runmqsc" QM::' qm="*"      output="runmqsc_AUTHREC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS AUTHSERV ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_AUTHSERV_SQM::"/>
+    <command name="echo" args='"DIS CHLAUTH(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_CHLAUTH_SQM::"/>
+    <command name="echo" args='"DIS COMMINFO(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_COMMINFO_SQM::"/>
+    <command name="echo" args='"DIS POLICY(*)" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_POLICY_SQM::"/>
+</commands>
+
+<commands platform="Linux" section="cs">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqspdbg" args="-m QM:: -f ZIP::amqspdbg_SQM::.out" qm="*" output="amqspdbg_SQM::"/>
+</commands>
+
+<commands platform="Linux" section="kernel">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c K -d 15 -f ZIP::amqldmpa_kernel_SQM::.out" qm="*" output="amqldmpa_kernel_SQM::"/>
+</commands>
+
+<commands platform="Linux" section="dap">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c A -d 15 -f ZIP::amqldmpa_dap_SQM::.out" qm="*" output="amqldmpa_dap_SQM::"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c A -o 2 -d 15 -f ZIP::amqldmpa_dap_atm_SQM::.out" qm="*" output="amqldmpa_dap_atm_SQM::"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c A -o 4 -d 15 -f ZIP::amqldmpa_dap_alm_SQM::.out" qm="*" output="amqldmpa_dap_alm_SQM::"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c A -o 16 -d 15 -f ZIP::amqldmpa_dap_aoc_SQM::.out" qm="*" output="amqldmpa_dap_aoc_SQM::"/>
+</commands>
+
+<commands platform="Linux" section="topic">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c T -d 15 -f ZIP::amqldmpa_topic_SQM::.out" qm="*" output="amqldmpa_topic_SQM::"/>
+</commands>
+
+<commands platform="Linux" section="logger">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c H -d 15 -f ZIP::amqldmpa_logger_SQM::.out" qm="*" output="amqldmpa_logger_SQM::"/>
+</commands>
+
+<commands platform="Linux" section="selector">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c S -d 15 -f ZIP::amqldmpa_selector_SQM::.out" qm="*" output="amqldmpa_selector_SQM::"/>
+</commands>
+
+<commands platform="Linux" section="format">
+    <command name='cd' args='"MQD::/trace"&amp;&amp;dspmqtrc *  ' output="dspmqtrc" timeout="0" env="!mqappliance"/>
+</commands>
+
+<commands platform="Linux" section="webui">
+    <command name='"WLP::/bin/server"' args="dump --archive=wlp_dump.zip" output="wlp_dump" timeout="120" env="mqappliance"/>
+</commands>
+
+<!-- mqweb and webui sections have same effect on the appliance. -->
+<commands platform="Linux" section="mqweb">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"WLP::/bin/server"' args="dump mqweb --archive=WorkDir::/wlp_dump.zip" output="wlp_dump" timeout="120" env="!mqappliance"/>
+    <command name='"WLP::/bin/server"' args="dump --archive=wlp_dump.zip" output="wlp_dump" timeout="120" env="mqappliance"/>
+</commands>
+
+<commands platform="Linux" section="san">
+    <command name="/opt/mqm/bin/mqsudo" args="/sbin/multipath -ll -v6" output="multipath" env="mqappliance"/>
+    <command name="/bin/ls" args="-la /mnt/fc-volume" output="fc-volume" env="mqappliance"/>
+    <command name="/bin/ls" args="-la /dev/mapper" output="mapper" env="mqappliance"/>
+</commands>
+
+<files platform="Linux" section="QMGR">
+    <file path="QMD::/" qm="*" detail="*" recursive="yes"/>
+    <file path="QML::/" qm="*" detail="*" recursive="yes"/>
+</files>
+
+<files platform="Linux" section="trace">
+    <file path="MQD::/trace" detail="*"/>
+    <file path="/var/log/cluster" detail="corosync.log" env="mqappliance"/>
+</files>
+
+<files platform="Linux" section="webui">
+    <file path="WLPD::/servers/defaultServer" detail="wlp_dump.zip" env="mqappliance"/>
+    <file path="WLPD::/servers/defaultServer" detail="*.dmp" env="mqappliance"/>
+    <file path="WLPD::/servers/defaultServer" detail="*.phd" env="mqappliance"/>
+    <file path="WLPD::/servers/defaultServer" detail="*.txt" env="mqappliance"/>
+    <file path="WLPD::/servers/defaultServer" detail="*.trc" env="mqappliance"/>    
+</files>
+
+<commands platform="Linux" section="mft">
+  <command name="fteRAS" output="fteras" env="!mqappliance"/>
+</commands>
+
+<files platform="Linux" section="mft">
+  <file path="MQD::/mqft/logs" detail="*"/>
+</files>
+
+<!-- mqweb and webui sections have same effect on the appliance. -->
+<files platform="Linux" section="mqweb">
+    <file path="WorkDir::/" detail="wlp_dump.zip" env="!mqappliance"/>
+    <file path="WLP::/mq/etc" detail="mqweb.xml" env="!appliance"/>
+    <file path="WLPD::/servers/defaultServer" detail="wlp_dump.zip" env="mqappliance"/>
+</files>
+
+<files platform="Linux" section="san">
+    <file path="/etc" detail="multipath.conf" env="mqappliance"/>
+</files>
+
+<commands platform="Linux" section="leak">
+  <command name="ps" args="-ef | egrep 'amqzlaa0|amqrmppa' | grep -v grep | awk '{ print $2 }' | xargs -I {} pmap -x {}" output="pmap-leak"/>
+  <command name="MQBIN::/amqspdbg" args="-m QM:: -v detail -f ZIP::amqspdbg-v_SQM::.out" qm="*" output="amqspdbg-v_SQM::"/>
+</commands>
+
+<commands platform="Linux" section="environ">
+  <command name="ps" args="-ef | awk '{ print $2 }' | xargs -I {} strings -f /proc/{}/environ" output="environ_all"/>
+</commands>
+
+
+<commands platform="MacOS">
+<!-- The working directory does not have write permission for group members.
+     "chmod" is required to work around this permission problem.
+ -->
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/dspmqver"' args="-f 722" output="stamp_dspmqver"/>
+    <command name="/usr/bin/uname" args="-n" output="stamp_hostname"/>
+    <command name='"MQBIN::/dspmqver"' output="dspmqver"/>
+    <command name='"MQBIN::/dspmqver"' args="-p 15" output="dspmqver_-p_15"/>
+    <command name='"MQBIN::/dspmqver"' args="-a" output="dspmqver_-a"/>
+    <command name='"MQBIN::/dspmqver"' args="-i" output="dspmqver_i"/>
+    <command name='"MQBIN::/dspmqver"' args="-p 64 -v" output="dspmqver_-p_64" env="mq"/>
+    <command name='"MQBIN::/dspmqinst"' output="dspmqinst" env="mq"/>
+    <command name="/usr/bin/gsk7ver" output="gsk7ver" env="mq"/>
+    <command name="/usr/bin/gsk75ver" output="gsk75ver" env="mq"/>
+    <command name="/usr/bin/gsk8ver" output="gsk8ver" env="mq"/>
+    <command name='"MQBIN::/dspmq"' args="-o all -x" output="dspmq"/>
+    <command name='"MQBIN::/mqconfig"' output="mqconfig"/>
+    <command name="/usr/bin/ipcs" args="-a" output="ipcs_a"/>
+    <command name="/usr/bin/ipcs" args="-T" output="ipcs_T"/>
+    <command name="/usr/sbin/sysctl" args="-a" output="sysctl_a"/>
+    <command name="/bin/ls" args='-iaRl "MQD::"' output="datafiles"/>
+    <command name="/bin/ls" args="-iaRl QMD::" qm="*" output="datafiles_SQM::"/>
+    <command name="/bin/ls" args='-iaRl "MQD::/errors"' output="errors"/>
+    <command name="/bin/ps" args="-efl" output="ps_efl"/>
+    <command name="/bin/ps" args="-eo pid,ppid,vsz,pmem,pcpu,start,time=CPUTIME, -o user=EUSER -o ruser,rgroup,args" output="ps_eo"/>
+    <command name="/bin/ls" args='-iaRl "MQBIN::"' output="binfiles"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/lib"' output="libfiles"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/lib64"' output="lib64files"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/java/lib"' output="javalibfiles"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/java/lib64"' output="javalib64files"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/properties"' output="propertiesFiles"/>
+    <command name="/bin/ls" args="-al /usr/lib/*mq*" output="usrlibsymlinks"/>
+    <command name="/bin/ls" args="-al /usr/lib/*gsk*" output="usrlibsymlinksGsk" env="mq"/>
+    <command name="/bin/ls" args='-iaRl "MQ::/mqexplorer"' output="explorerFiles" env="mq"/>
+    <command name="/usr/bin/find" args='"MQBIN::" -type f -print -exec /usr/bin/sum {} \;' output="binfiles_sum"/>
+    <command name="/usr/bin/find" args='"MQ::/lib" -type f -print -exec /usr/bin/sum {} \;' output="libfiles_sum"/>
+    <command name="/usr/bin/find" args='"MQ::/lib64" -type f -print -exec /usr/bin/sum {} \;' output="lib64files_sum"/>
+    <command name="/usr/bin/find" args='"MQ::/java/lib" -type f -print -exec /usr/bin/sum {} \;' output="javalibfiles_sum"/>
+    <command name="/usr/bin/find" args='"MQ::/java/lib64" -type f -print -exec /usr/bin/sum {} \;' output="javalib64files_sum"/>
+    <command name='"MQBIN::/amqoamd"' args="-m QM::" qm="*" output="amqoamd_SQM::" env="mq"/>
+    <command name='"MQBIN::/dmpmqaut"' args="-m QM::" qm="*" output="dmpmqaut_SQM::" />
+    <command name="/usr/bin/uname" args="-a" output="uname"/>
+    <command name="/sbin/mount" output="mount"/>
+    <command name="/bin/df" args="-k" output="df"/>
+    <command name='"MQBIN::/amqicdir"' args="-a" output="amqicdir-a" env="mq"/>
+    <command name="/usr/bin/id" args="mqm" output="idmqm" env="mq"/>
+    <command name="/usr/sbin/netstat" args="-an" output="netstat-an"/>
+    <command name="/usr/sbin/netstat" args="-i" output="netstat-i"/>
+    <command name="/usr/sbin/netstat" args="-s" output="netstat-s"/>
+    <command name='cd' args='"MQD::/errors"&amp;&amp;"MQBIN::/ffstsummary"' output="ffstSummary" timeout="30"/>
+    <command name="uptime" output="uptime"/>
+    <command name="env" output="env"/>
+    <command name="ps" args="-ef | grep 'mq' | grep -v grep | awk '{ print $2 }' | xargs -I {} ps -p {} -wwwE" output="environ_mq"/>
+</commands>
+
+<files platform="MacOS">
+    <file path="MQD::/errors" detail="*"/>
+    <file path="MQD::" detail="mqs.ini"/>
+    <file path="QMD::" qm="*" detail="qm.ini"/>
+    <file path="QMD::" qm="*" detail="qmstatus.ini"/>
+    <file path="QMD::" qm="*" detail="amqalchk.fil"/>
+    <file path="QMD::" qm="*" detail="mqxr.*"/>
+    <file path="QMD::" qm="*" detail="amqp.*"/>
+    <file path="QMD::/errors" qm="*" detail="*"/>
+    <file path="MQD::/exits" detail="*.log"  recursive="yes"/>
+    <file path="MQD::/exits64" detail="*.log"  recursive="yes"/>
+    <file path="QML::" qm="*" detail="amqhlctl.lfh"/>
+    <file path="$HOME/IBM/MQ/workspace-MQI::/.metadata/" detail=".log" env="mq"/>
+    <file path="$HOME/IBM/MQ/workspace-MQI::/.metadata/.plugins/com.ibm.mq.explorer.ui" detail="*" env="mq"/>
+    <file path="/etc/opt/mqm" detail="mqinst.ini" />
+    <file path="MQ::" detail="mqpatch.dat" />
+    <file path="MQ::" detail="mqpatch.log" />
+    <file path="MQD::/mqxr/config" detail="*"/>
+</files>
+
+<commands platform="MacOS" section="cluster">
+    <command name='"MQBIN::/amqrfdm"' args="-m QM:: -d" qm="*" output="amqrfdm_SQM::" env="mq"/>
+    <command name='"MQBIN::/amqrfdm"' args="-m QM:: -h ZIP::" qm="*" output="amqrfdm_h_SQM::" env="mq"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.REPOSITORY.QUEUE -da -F ZIP::SCRQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCRQ" env="mq"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.COMMAND.QUEUE -da -F ZIP::SCCQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCCQ" env="mq"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.TRANSMIT.QUEUE -da -F ZIP::SCTQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCTQ" env="mq"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.HISTORY.QUEUE -da -F ZIP::SCHQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCHQ" env="mq"/>
+</commands>
+
+<commands platform="MacOS" section="defs">
+    <command name="echo" args='"DIS QMGR ALL" | "MQBIN::/runmqsc" QM::' qm="*"           output="runmqsc_QMGR_SQM::"/>
+    <command name="echo" args='"DIS AUTHINFO(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_AUTHINFO_SQM::"/>
+    <command name="echo" args='"DIS CHANNEL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_CHANNEL_SQM::"/>
+    <command name="echo" args='"DIS CHANNEL(*) CHLTYPE(MQTT) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHANNEL_MQTT_SQM::"/>
+    <command name="echo" args='"DIS QLOCAL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QLOCAL_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_CHS_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) SAVED ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_SAVED_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(MQTT) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_MQTT_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(MQTT) CLIENTID(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_MQTT_CLI_SQM::"/>
+    <command name="echo" args='"DIS CLUSQMGR(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_CLUSQMGR_SQM::"/>
+    <command name="echo" args='"DIS PROCESS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_PROCESS_SQM::"/>
+    <command name="echo" args='"DIS NAMELIST(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_NAMELIST_SQM::"/>
+    <command name="echo" args='"DIS QALIAS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QALIAS_SQM::"/>
+    <command name="echo" args='"DIS QCLUSTER(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_QCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS QMODEL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QMODEL_SQM::"/>
+    <command name="echo" args='"DIS QREMOTE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QREMOTE_SQM::"/>
+    <command name="echo" args='"DIS QUEUE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_QUEUE_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) TYPE(HANDLE) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_HANDLE_SQM::"/>
+    <command name="echo" args='"DIS CONN(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"      output="runmqsc_CONN_SQM::"/>
+    <command name="echo" args='"DIS SERVICE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_SERVICE_SQM::"/>
+    <command name="echo" args='"DIS LISTENER (*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_LISTENER_SQM::"/>
+    <command name="echo" args='"DIS SVSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_SVSTATUS_SQM::"/>
+    <command name="echo" args='"DIS LSSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_LSSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QMSTATUS ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_QMSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TOPIC(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_TOPIC_SQM::"/>
+    <command name="echo" args='"DIS TCLUSTER(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS SUB(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_SUB_SQM::"/>
+    <command name="echo" args='"DIS SBSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_SBSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(SUB) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_SUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(PUB) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_PUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(TOPIC) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_TOPIC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS PUBSUB ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_PUBSUB_SQM::"/>
+    <command name="echo" args='"DIS AUTHREC ALL" | "MQBIN::/runmqsc" QM::' qm="*"      output="runmqsc_AUTHREC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS AUTHSERV ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_AUTHSERV_SQM::"/>
+    <command name="echo" args='"DIS CHLAUTH(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_CHLAUTH_SQM::"/>
+    <command name="echo" args='"DIS COMMINFO(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_COMMINFO_SQM::"/>
+    <command name="echo" args='"DIS POLICY(*)" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_POLICY_SQM::"/>
+</commands>
+
+<commands platform="MacOS" section="cs">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqspdbg" args="-m QM:: -f ZIP::amqspdbg_SQM::.out" qm="*" output="amqspdbg_SQM::"/>
+</commands>
+
+<commands platform="MacOS" section="kernel">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c K -d 15 -f ZIP::amqldmpa_kernel_SQM::.out" qm="*" output="amqldmpa_kernel_SQM::"/>
+</commands>
+
+<commands platform="MacOS" section="dap">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c A -d 15 -f ZIP::amqldmpa_dap_SQM::.out" qm="*" output="amqldmpa_dap_SQM::"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c A -o 2 -d 15 -f ZIP::amqldmpa_dap_atm_SQM::.out" qm="*" output="amqldmpa_dap_atm_SQM::"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c A -o 4 -d 15 -f ZIP::amqldmpa_dap_alm_SQM::.out" qm="*" output="amqldmpa_dap_alm_SQM::"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c A -o 16 -d 15 -f ZIP::amqldmpa_dap_aoc_SQM::.out" qm="*" output="amqldmpa_dap_aoc_SQM::"/>
+</commands>
+
+<commands platform="MacOS" section="topic">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c T -d 15 -f ZIP::amqldmpa_topic_SQM::.out" qm="*" output="amqldmpa_topic_SQM::"/>
+</commands>
+
+<commands platform="MacOS" section="logger">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c H -d 15 -f ZIP::amqldmpa_logger_SQM::.out" qm="*" output="amqldmpa_logger_SQM::"/>
+</commands>
+
+<commands platform="MacOS" section="selector">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"MQBIN::/amqldmpa"' args="-m QM:: -c S -d 15 -f ZIP::amqldmpa_selector_SQM::.out" qm="*" output="amqldmpa_selector_SQM::"/>
+</commands>
+
+<commands platform="MacOS" section="format">
+    <command name='cd' args='"MQD::/trace"&amp;&amp;dspmqtrc * dummy.TRC' output="dspmqtrc" timeout="0"/>
+</commands>
+
+<files platform="MacOS" section="QMGR">
+    <file path="QMD::/" qm="*" detail="*" recursive="yes"/>
+    <file path="QML::/" qm="*" detail="*" recursive="yes"/>
+</files>
+
+<files platform="MacOS" section="trace">
+    <file path="MQD::/trace" detail="*"/>
+</files>
+
+<commands platform="MacOS" section="mft">
+  <command name="fteRAS" output="fteras"/>
+</commands>
+
+<files platform="MacOS" section="mft">
+  <file path="MQD::/mqft/logs" detail="*"/>
+</files>
+
+<commands platform="MacOS" section="leak">
+  <command name="ps" args="-ef | egrep 'amqzlaa0|amqrmppa' | grep -v grep | awk '{ print $2 }' | xargs -I {} vmmap {}" output="vmmap-leak"/>
+  <command name="MQBIN::/amqspdbg" args="-m QM:: -v detail -f ZIP::amqspdbg-v_SQM::.out" qm="*" output="amqspdbg-v_SQM::"/>
+</commands>
+
+<commands platform="MacOS" section="environ">
+  <command name="ps" args="-ef | awk '{ print $2 }' | xargs -I {} ps -p {} -wwwE" output="environ_all"/>
+</commands>
+
+
+<commands platform="SunOS">
+<!-- The working directory does not have write permission for group members.
+     "chmod" is required to work around this permission problem.
+ -->
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/dspmqver" args="-f 722" output="stamp_dspmqver"/>
+    <command name="/sbin/uname" args="-n" output="stamp_hostname"/>
+    <command name="MQBIN::/dspmqver" output="dspmqver"/>
+    <command name="MQBIN::/dspmqver" args="-p 15" output="dspmqver_-p_15"/>
+    <command name="MQBIN::/dspmqver" args="-a" output="dspmqver_-a"/>
+    <command name="MQBIN::/dspmqver" args="-i" output="dspmqver_i"/>
+    <command name="MQBIN::/mqcertck" args="QM::" qm="*" output="mqcertck_SQM::"/>
+    <command name="MQBIN::/dspmqinst" output="dspmqinst"/>
+    <command name="/usr/bin/gsk7ver" output="gsk7ver"/>
+    <command name="/usr/bin/gsk75ver" output="gsk75ver"/>
+    <command name="/usr/bin/gsk8ver" output="gsk8ver"/>
+    <command name="MQBIN::/dspmq" args="-o all -x" output="dspmq"/>
+    <command name="MQBIN::/mqconfig" output="mqconfig"/>
+    <command name="/bin/ipcs" args="-c" output="ipcs_c"/>
+    <command name="/bin/ipcs" args="-t" output="ipcs_t"/>
+    <command name="/bin/ipcs" args="-a" output="ipcs_a"/>
+    <command name="/bin/ls" args="-iaRl MQD::" output="datafiles"/>
+    <command name="/bin/ls" args="-iaRl QMD::" qm="*" output="datafiles_SQM::"/>
+    <command name="/bin/ls" args="-iaRl MQD::/errors" output="errors"/>
+    <command name="/bin/ps" args="-efl" output="ps_efl"/>
+    <command name="/bin/ps" args="-ecfl" output="ps_ecfl"/>
+    <command name="/bin/ps" args="-eo pid,ppid,nlwp,s,vsz,pmem,pcpu,stime=STARTED -o time=CPUTIME -o project -o user=EUSER -o ruser,rgroup,args" output="ps_eo"/>
+    <command name="/bin/ls" args="-iaRl MQ::/amqp" output="amqpfiles"/>
+    <command name="/bin/ls" args="-iaRl MQBIN::" output="binfiles"/>
+    <command name="/bin/ls" args="-iaRl MQ::/lib" output="libfiles"/>
+    <command name="/bin/ls" args="-iaRl MQ::/lib64" output="lib64files"/>
+    <command name="/bin/ls" args="-iaRl MQ::/java/lib" output="javalibfiles"/>
+    <command name="/bin/ls" args="-iaRl MQ::/java/lib64" output="javalib64files"/>
+    <command name="/bin/ls" args="-iaRl MQ::/properties" output="propertiesFiles"/>
+    <command name="/bin/ls" args="-al /usr/lib/*mq*" output="usrlibsymlinks"/>
+    <command name="/bin/ls" args="-al /usr/lib/*gsk*" output="usrlibsymlinksGsk"/>
+    <command name="/bin/find" args="MQ::/amqp -type f -print -exec /bin/sum {} \;" output="amqpfiles_sum"/>
+    <command name="/bin/find" args="MQBIN:: -type f -print -exec /bin/sum {} \;" output="binfiles_sum"/>
+    <command name="/bin/find" args="MQ::/lib -type f -print -exec /bin/sum {} \;" output="libfiles_sum"/>
+    <command name="/bin/find" args="MQ::/lib64 -type f -print -exec /bin/sum {} \;" output="lib64files_sum"/>
+    <command name="/bin/find" args="MQ::/java/lib -type f -print -exec /bin/sum {} \;" output="javalibfiles_sum"/>
+    <command name="/bin/find" args="MQ::/java/lib64 -type f -print -exec /bin/sum {} \;" output="javalib64files_sum"/>
+    <command name="MQBIN::/amqoamd" args="-m QM::" qm="*" output="amqoamd_SQM::" env="mq"/>
+    <command name="MQBIN::/dmpmqaut" args="-m QM::" qm="*" output="dmpmqaut_SQM::"/>
+    <command name="/sbin/uname" args="-a" output="uname"/>
+    <command name="/usr/sbin/mount" args="-v" output="mount-v"/>
+    <command name="/usr/sbin/df" args="-k" output="df-k"/>
+    <command name="/usr/sbin/df" args="-h" output="df-h"/>
+    <command name="MQBIN::/amqicdir" args="-a" output="amqicdir-a"/>
+    <command name="/usr/sbin/prtconf" output="prtconf"/>
+    <command name="/bin/projects" args="-l" output="projects-l"/>
+    <command name="/usr/sbin/sysdef" args="-i" output="sysdef-i"/>
+    <command name="/usr/sbin/psrinfo" args="-v" output="psrinfo-v"/>
+    <command name="/usr/sbin/prtdiag" args="-v" output="prtdiag-v"/>
+    <command name="/bin/kstat" output="kstat"/>
+    <command name="/bin/vmstat" output="vmstat"/>
+    <command name="/bin/vmstat" args="-p" output="vmstat-p"/>
+    <command name="/bin/vmstat" args="-S" output="vmstat-S"/>
+    <command name="/bin/iostat" output="iostat"/>
+    <command name="/bin/id" args="-a mqm" output="idmqm"/>
+    <command name="/bin/netstat" args="-an" output="netstat-an"/>
+    <command name="/bin/netstat" args="-i" output="netstat-i"/>
+    <command name="/bin/netstat" args="-s" output="netstat-s"/>
+    <command name="/bin/pkginfo" args="-l" output="pkginfo-l"/>
+    <command name="/bin/pkginfo" args="-x" output="pkginfo-x"/>
+    <command name="/bin/pkginfo" output="pkginfo"/>
+    <command name="/bin/pkgparam" args="-v mqm" output="pkgparam"/>
+    <command name='cd' args='"MQD::/errors"&amp;&amp;"MQBIN::/ffstsummary"' output="ffstSummary" timeout="30"/>
+    <command name="/bin/uptime" output="uptime"/>
+    <command name="/bin/env" output="env"/>
+    <command name="ps" args="-ef | grep 'mq' | grep -v grep | awk '{ print $2 }' | xargs -I {} pargs -e {}" output="environ_mq"/>
+</commands>
+
+<files platform="SunOS">
+    <file path="MQD::/errors" detail="*"/>
+    <file path="MQD::/exits" detail="*.log"  recursive="yes"/>
+    <file path="MQD::/exits64" detail="*.log"  recursive="yes"/>
+    <file path="MQD::" detail="mqs.ini"/>
+    <file path="QMD::" qm="*" detail="qm.ini"/>
+    <file path="QMD::" qm="*" detail="qmstatus.ini"/>
+    <file path="QMD::" qm="*" detail="amqalchk.fil"/>
+    <file path="QMD::" qm="*" detail="mqxr.*"/>
+    <file path="QMD::" qm="*" detail="amqp.*"/>
+    <file path="QMD::/errors" qm="*" detail="*"/>
+    <file path="QML::" qm="*" detail="amqhlctl.lfh"/>
+    <file path="/etc/opt/mqm" detail="mqinst.ini" />
+    <file path="MQ::" detail="mqpatch.dat" />
+    <file path="MQ::" detail="mqpatch.log" />
+    <file path="MQD::/mqxr/config" detail="*"/>
+</files>
+
+<commands platform="SunOS" section="cluster">
+    <command name='"MQBIN::/amqrfdm"' args="-m QM:: -d" qm="*" output="amqrfdm_SQM::"/>
+    <command name='"MQBIN::/amqrfdm"' args="-m QM:: -h ZIP::" qm="*" output="amqrfdm_h_SQM::"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.REPOSITORY.QUEUE -da -F ZIP::SCRQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCRQ" />
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.COMMAND.QUEUE -da -F ZIP::SCCQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCCQ" />
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.TRANSMIT.QUEUE -da -F ZIP::SCTQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCTQ" />
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.HISTORY.QUEUE -da -F ZIP::SCHQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCHQ" />
+</commands>
+
+<commands platform="SunOS" section="defs">
+    <command name="echo" args='"DIS QMGR ALL" | "MQBIN::/runmqsc" QM::' qm="*"           output="runmqsc_QMGR_SQM::"/>
+    <command name="echo" args='"DIS AUTHINFO(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_AUTHINFO_SQM::"/>
+    <command name="echo" args='"DIS CHANNEL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_CHANNEL_SQM::"/>
+    <command name="echo" args='"DIS QLOCAL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QLOCAL_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_CHS_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) SAVED ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_SAVED_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(AMQP) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_AMQP_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(AMQP) CLIENTID(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_AMQP_CLI_SQM::"/>
+    <command name="echo" args='"DIS CLUSQMGR(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_CLUSQMGR_SQM::"/>
+    <command name="echo" args='"DIS PROCESS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_PROCESS_SQM::"/>
+    <command name="echo" args='"DIS NAMELIST(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_NAMELIST_SQM::"/>
+    <command name="echo" args='"DIS QALIAS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QALIAS_SQM::"/>
+    <command name="echo" args='"DIS QCLUSTER(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_QCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS QMODEL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QMODEL_SQM::"/>
+    <command name="echo" args='"DIS QREMOTE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QREMOTE_SQM::"/>
+    <command name="echo" args='"DIS QUEUE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_QUEUE_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) TYPE(HANDLE) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_HANDLE_SQM::"/>
+    <command name="echo" args='"DIS CONN(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"      output="runmqsc_CONN_SQM::"/>
+    <command name="echo" args='"DIS SERVICE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_SERVICE_SQM::"/>
+    <command name="echo" args='"DIS LISTENER (*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_LISTENER_SQM::"/>
+    <command name="echo" args='"DIS SVSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_SVSTATUS_SQM::"/>
+    <command name="echo" args='"DIS LSSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_LSSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QMSTATUS ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_QMSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TOPIC(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_TOPIC_SQM::"/>
+    <command name="echo" args='"DIS TCLUSTER(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS SUB(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_SUB_SQM::"/>
+    <command name="echo" args='"DIS SBSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_SBSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(SUB) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_SUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(PUB) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_PUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(TOPIC) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_TOPIC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS PUBSUB ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_PUBSUB_SQM::"/>
+    <command name="echo" args='"DIS AUTHREC ALL" | "MQBIN::/runmqsc" QM::' qm="*"      output="runmqsc_AUTHREC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS AUTHSERV ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_AUTHSERV_SQM::"/>
+    <command name="echo" args='"DIS CHLAUTH(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_CHLAUTH_SQM::"/>
+    <command name="echo" args='"DIS COMMINFO(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_COMMINFO_SQM::"/>
+    <command name="echo" args='"DIS POLICY(*)" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_POLICY_SQM::"/>
+</commands>
+
+<commands platform="SunOS" section="cs">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqspdbg" args="-m QM:: -f ZIP::amqspdbg_SQM::.out" qm="*" output="amqspdbg_SQM::"/>
+</commands>
+
+<commands platform="SunOS" section="kernel">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c K -d 15 -f ZIP::amqldmpa_kernel_SQM::.out" qm="*" output="amqldmpa_kernel_SQM::"/>
+</commands>
+
+<commands platform="SunOS" section="dap">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -d 15 -f ZIP::amqldmpa_dap_SQM::.out" qm="*" output="amqldmpa_dap_SQM::"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -o 2 -d 15 -f ZIP::amqldmpa_dap_atm_SQM::.out" qm="*" output="amqldmpa_dap_atm_SQM::"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -o 4 -d 15 -f ZIP::amqldmpa_dap_alm_SQM::.out" qm="*" output="amqldmpa_dap_alm_SQM::"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -o 16 -d 15 -f ZIP::amqldmpa_dap_aoc_SQM::.out" qm="*" output="amqldmpa_dap_aoc_SQM::"/>
+</commands>
+
+<commands platform="SunOS" section="topic">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c T -d 15 -f ZIP::amqldmpa_topic_SQM::.out" qm="*" output="amqldmpa_topic_SQM::"/>
+</commands>
+
+<commands platform="SunOS" section="logger">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c H -d 15 -f ZIP::amqldmpa_logger_SQM::.out" qm="*" output="amqldmpa_logger_SQM::"/>
+</commands>
+
+<commands platform="SunOS" section="selector">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c S -d 15 -f ZIP::amqldmpa_selector_SQM::.out" qm="*" output="amqldmpa_selector_SQM::"/>
+</commands>
+
+<commands platform="SunOS" section="format">
+    <command name='cd' args="MQD::/trace&amp;&amp;dspmqtrc *  " output="dspmqtrc" timeout="0"/>
+</commands>
+
+<commands platform="SunOS" section="mqweb">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"WLP::/bin/server"' args="dump mqweb --archive=WorkDir::/wlp_dump.zip" output="wlp_dump" timeout="120"/>
+</commands>
+
+<files platform="SunOS" section="QMGR">
+    <file path="QMD::/" qm="*" detail="*" recursive="yes"/>
+    <file path="QML::/" qm="*" detail="*" recursive="yes"/>
+</files>
+
+<files platform="SunOS" section="trace">
+  <file path="MQD::/trace" detail="*"/>
+</files>
+
+<commands platform="SunOS" section="mft">
+  <command name="fteRAS" output="fteras"/>
+</commands>
+
+<files platform="SunOS" section="mft">
+  <file path="MQD::/mqft/logs" detail="*"/>
+</files>
+
+<files platform="SunOS" section="mqweb">
+    <file path="WorkDir::/" detail="wlp_dump.zip"/>
+    <file path="WLP::/mq/etc" detail="mqweb.xml"/>
+</files>
+
+<commands platform="SunOS" section="leak">
+  <command name="ps" args="-ef | egrep 'amqzlaa0|amqrmppa' | grep -v grep | awk '{ print $2 }' | xargs -I {} pmap -x {}" output="pmap-leak"/>
+  <command name="MQBIN::/amqspdbg" args="-m QM:: -v detail -f ZIP::amqspdbg-v_SQM::.out" qm="*" output="amqspdbg-v_SQM::"/>
+</commands>
+
+<commands platform="SunOS" section="environ">
+  <command name="ps" args="-ef | awk '{ print $2 }' | xargs -I {} pargs -e {}" output="environ_all"/>
+</commands>
+
+
+<commands platform="AIX">
+<!-- The working directory does not have write permission for group members.
+     "chmod" is required to work around this permission problem.
+ -->
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/dspmqver" args="-f 722" output="stamp_dspmqver"/>
+    <command name="/bin/uname" args="-n" output="stamp_hostname"/>
+    <command name="MQBIN::/dspmqver" output="dspmqver"/>
+    <command name="MQBIN::/dspmqver" args="-p 15" output="dspmqver_-p_15"/>
+    <command name="MQBIN::/dspmqver" args="-a" output="dspmqver_-a"/>
+    <command name="MQBIN::/dspmqver" args="-i" output="dspmqver_i"/>
+    <command name="MQBIN::/mqcertck" args="QM::" qm="*" output="mqcertck_SQM::"/>
+    <command name="MQBIN::/dspmqinst" output="dspmqinst"/>
+    <command name="/usr/bin/gsk7ver" output="gsk7ver"/>
+    <command name="/usr/bin/gsk75ver" output="gsk75ver"/>
+    <command name="/usr/bin/gsk8ver" output="gsk8ver"/>
+    <command name="MQBIN::/dspmq" args="-o all -x" output="dspmq"/>
+    <command name="MQBIN::/mqconfig" output="mqconfig"/>
+    <command name="/bin/ipcs" args="-c" output="ipcs_c"/>
+    <command name="/bin/ipcs" args="-t" output="ipcs_t"/>
+    <command name="/bin/ipcs" args="-aX" output="ipcs_a"/>
+    <command name="/bin/ls" args="-iaRl MQD::" output="datafiles"/>
+    <command name="/bin/ls" args="-iaRl QMD::" qm="*" output="datafiles_SQM::"/>
+    <command name="/bin/ls" args="-iaRl MQD::/errors" output="errors"/>
+    <command name="/bin/ps" args="-efl" output="ps_efl"/>
+    <command name="/bin/ps" args="-eo pid,ppid,thcount=NLWP -o status=S -o vsz,pmem,pcpu,start,time=CPUTIME -o user=EUSER -o ruser,rgroup,args" output="ps_eo"/>
+    <command name="/bin/ls" args="-iaRl MQ::/amqp" output="amqpfiles"/>
+    <command name="/bin/ls" args="-iaRl MQBIN::" output="binfiles"/>
+    <command name="/bin/ls" args="-iaRl MQ::/lib" output="libfiles"/>
+    <command name="/bin/ls" args="-iaRl MQ::/lib64" output="lib64files"/>
+    <command name="/bin/ls" args="-iaRl MQ::/java/lib" output="javalibfiles"/>
+    <command name="/bin/ls" args="-iaRl MQ::/java/lib64" output="javalib64files"/>
+    <command name="/bin/ls" args="-iaRl MQ::/properties" output="propertiesFiles"/>
+    <command name="/bin/ls" args="-al /usr/lib/*mq*" output="usrlibsymlinks"/>
+    <command name="/bin/ls" args="-al /usr/lib/*gsk*" output="usrlibsymlinksGsk"/>
+    <command name="/bin/find" args="MQ::/amqp -type f -print -exec /usr/bin/sum {} \;" output="amqpfiles_sum"/>
+    <command name="/bin/find" args="MQBIN:: -type f -print -exec /usr/bin/sum {} \;" output="binfiles_sum"/>
+    <command name="/bin/find" args="MQ::/lib -type f -print -exec /usr/bin/sum {} \;" output="libfiles_sum"/>
+    <command name="/bin/find" args="MQ::/lib64 -type f -print -exec /usr/bin/sum {} \;" output="lib64files_sum"/>
+    <command name="/bin/find" args="MQ::/java/lib -type f -print -exec /usr/bin/sum {} \;" output="javalibfiles_sum"/>
+    <command name="/bin/find" args="MQ::/java/lib64 -type f -print -exec /usr/bin/sum {} \;" output="javalib64files_sum"/>
+    <command name="MQBIN::/amqoamd" args="-m QM::" qm="*" output="amqoamd_SQM::" env="mq"/>
+    <command name="MQBIN::/dmpmqaut" args="-m QM::" qm="*" output="dmpmqaut_SQM::"/>
+    <command name="/bin/uname" args="-a" output="uname"/>
+    <command name="/bin/uname" args="-xML" output="uname"/>
+    <command name="/usr/sbin/mount" output="mount"/>
+    <command name="/bin/df" args="-vk" output="df"/>
+    <command name="MQBIN::/amqicdir" args="-a" output="amqicdir-a"/>
+    <command name="/bin/id" args="mqm" output="idmqm"/>
+    <command name="/bin/netstat" args="-ao" output="netstat-ao"/>
+    <command name="/usr/sbin/lsdev" output="lsdev"/>
+    <command name="/usr/sbin/lsattr" args="-El sys0" output="lsattr-El"/>
+    <command name="/usr/sbin/no" args="-a" output="no-a"/>
+    <command name="/usr/sbin/lsuser" args="-f mqm" output="lsuser_mqm"/>
+    <command name="/usr/sbin/lsgroup" args="-f mqm" output="lsgroup_mqm"/>
+    <command name="/bin/oslevel" args="-s" output="oslevel"/>
+    <command name="/bin/lslpp" args="-R ALL -ha" output="lslpp"/>
+    <command name="/bin/lslpp" args="-R ALL -ha gsk\* mqm\*" output="lslpp_gsk_mqm"/>
+    <command name='cd' args='"MQD::/errors"&amp;&amp;"MQBIN::/ffstsummary"' output="ffstSummary" timeout="30"/>
+    <command name="uptime" output="uptime"/>
+    <command name="env" output="env"/>
+    <command name="ps" args="-ef | grep 'mq' | grep -v grep | awk '{ print $2 }' | xargs -I {} ps eww {}" output="environ_mq"/>
+</commands>
+
+<files platform="AIX">
+    <file path="MQD::/errors" detail="*"/>
+    <file path="MQD::/exits" detail="*.log"  recursive="yes"/>
+    <file path="MQD::/exits64" detail="*.log"   recursive="yes"/>
+    <file path="MQD::" detail="mqs.ini"/>
+    <file path="QMD::" qm="*" detail="qm.ini"/>
+    <file path="QMD::" qm="*" detail="qmstatus.ini"/>
+    <file path="QMD::" qm="*" detail="amqalchk.fil"/>
+    <file path="QMD::" qm="*" detail="mqxr.*"/>
+    <file path="QMD::" qm="*" detail="amqp.*"/>
+    <file path="QMD::/errors" qm="*" detail="*"/>
+    <file path="QML::" qm="*" detail="amqhlctl.lfh"/>
+    <file path="/etc/opt/mqm" detail="mqinst.ini" />
+    <file path="MQ::" detail="mqpatch.dat" />
+    <file path="MQ::" detail="mqpatch.log" />
+    <file path="MQD::/mqxr/config" detail="*"/>
+    <file path="MQD::/web" detail="*" recursive="yes"/>
+</files>
+
+<commands platform="AIX" section="cluster">
+    <command name='"MQBIN::/amqrfdm"' args="-m QM:: -d" qm="*" output="amqrfdm_SQM::"/>
+    <command name='"MQBIN::/amqrfdm"' args="-m QM:: -h ZIP::" qm="*" output="amqrfdm_h_SQM::"/>
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.REPOSITORY.QUEUE -da -F ZIP::SCRQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCRQ" />
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.COMMAND.QUEUE -da -F ZIP::SCCQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCCQ" />
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.TRANSMIT.QUEUE -da -F ZIP::SCTQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCTQ" />
+    <command name='"MQBIN::/dmpmqmsg"' args="-m QM:: -i SYSTEM.CLUSTER.HISTORY.QUEUE -da -F ZIP::SCHQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCHQ" />
+</commands>
+
+<commands platform="AIX" section="defs">
+    <command name="echo" args='"DIS QMGR ALL" | "MQBIN::/runmqsc" QM::' qm="*"           output="runmqsc_QMGR_SQM::"/>
+    <command name="echo" args='"DIS AUTHINFO(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_AUTHINFO_SQM::"/>
+    <command name="echo" args='"DIS CHANNEL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_CHANNEL_SQM::"/>
+    <command name="echo" args='"DIS QLOCAL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QLOCAL_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_CHS_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) SAVED ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_SAVED_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(MQTT) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_MQTT_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(MQTT) CLIENTID(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_MQTT_CLI_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(AMQP) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_AMQP_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) CHLTYPE(AMQP) CLIENTID(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_CHS_AMQP_CLI_SQM::"/>
+    <command name="echo" args='"DIS CLUSQMGR(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_CLUSQMGR_SQM::"/>
+    <command name="echo" args='"DIS PROCESS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_PROCESS_SQM::"/>
+    <command name="echo" args='"DIS NAMELIST(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_NAMELIST_SQM::"/>
+    <command name="echo" args='"DIS QALIAS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QALIAS_SQM::"/>
+    <command name="echo" args='"DIS QCLUSTER(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_QCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS QMODEL(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_QMODEL_SQM::"/>
+    <command name="echo" args='"DIS QREMOTE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QREMOTE_SQM::"/>
+    <command name="echo" args='"DIS QUEUE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_QUEUE_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) TYPE(HANDLE) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_HANDLE_SQM::"/>
+    <command name="echo" args='"DIS CONN(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"      output="runmqsc_CONN_SQM::"/>
+    <command name="echo" args='"DIS SERVICE(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_SERVICE_SQM::"/>
+    <command name="echo" args='"DIS LISTENER (*) ALL" | "MQBIN::/runmqsc" QM::' qm="*" output="runmqsc_LISTENER_SQM::"/>
+    <command name="echo" args='"DIS SVSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_SVSTATUS_SQM::"/>
+    <command name="echo" args='"DIS LSSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_LSSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QMSTATUS ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_QMSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TOPIC(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_TOPIC_SQM::"/>
+    <command name="echo" args='"DIS TCLUSTER(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS SUB(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_SUB_SQM::"/>
+    <command name="echo" args='"DIS SBSTATUS(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_SBSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(SUB) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_SUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(PUB) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_PUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(TOPIC) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_TOPIC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS PUBSUB ALL" | "MQBIN::/runmqsc" QM::' qm="*"       output="runmqsc_PUBSUB_SQM::"/>
+    <command name="echo" args='"DIS AUTHREC ALL" | "MQBIN::/runmqsc" QM::' qm="*"      output="runmqsc_AUTHREC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS AUTHSERV ALL" | "MQBIN::/runmqsc" QM::' qm="*"     output="runmqsc_AUTHSERV_SQM::"/>
+    <command name="echo" args='"DIS CHLAUTH(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"   output="runmqsc_CHLAUTH_SQM::"/>
+    <command name="echo" args='"DIS COMMINFO(*) ALL" | "MQBIN::/runmqsc" QM::' qm="*"  output="runmqsc_COMMINFO_SQM::"/>
+    <command name="echo" args='"DIS POLICY(*)" | "MQBIN::/runmqsc" QM::' qm="*"    output="runmqsc_POLICY_SQM::"/>
+</commands>
+
+<commands platform="AIX" section="cs">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqspdbg" args="-m QM:: -f ZIP::amqspdbg_SQM::.out" qm="*" output="amqspdbg_SQM::"/>
+</commands>
+
+<commands platform="AIX" section="kernel">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c K -d 15 -f ZIP::amqldmpa_kernel_SQM::.out" qm="*" output="amqldmpa_kernel_SQM::"/>
+</commands>
+
+<commands platform="AIX" section="dap">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -d 15 -f ZIP::amqldmpa_dap_SQM::.out" qm="*" output="amqldmpa_dap_SQM::"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -o 2 -d 15 -f ZIP::amqldmpa_dap_atm_SQM::.out" qm="*" output="amqldmpa_dap_atm_SQM::"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -o 4 -d 15 -f ZIP::amqldmpa_dap_alm_SQM::.out" qm="*" output="amqldmpa_dap_alm_SQM::"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c A -o 16 -d 15 -f ZIP::amqldmpa_dap_aoc_SQM::.out" qm="*" output="amqldmpa_dap_aoc_SQM::"/>
+</commands>
+
+<commands platform="AIX" section="topic">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c T -d 15 -f ZIP::amqldmpa_topic_SQM::.out" qm="*" output="amqldmpa_topic_SQM::"/>
+</commands>
+
+<commands platform="AIX" section="logger">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c H -d 15 -f ZIP::amqldmpa_logger_SQM::.out" qm="*" output="amqldmpa_logger_SQM::"/>
+</commands>
+
+<commands platform="AIX" section="selector">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name="MQBIN::/amqldmpa" args="-m QM:: -c S -d 15 -f ZIP::amqldmpa_selector_SQM::.out" qm="*" output="amqldmpa_selector_SQM::"/>
+</commands>
+
+<commands platform="AIX" section="format">
+    <command name='cd' args="MQD::/trace&amp;&amp;dspmqtrc *  " output="dspmqtrc" timeout="0"/>
+</commands>
+
+<commands platform="AIX" section="mqweb">
+    <command name="/bin/chmod" args="775 ZIP::" output="chmod"/>
+    <command name='"WLP::/bin/server"' args="dump mqweb --archive=WorkDir::/wlp_dump.zip" output="wlp_dump" timeout="120"/>
+</commands>
+
+<files platform="AIX" section="QMGR">
+    <file path="QMD::/" qm="*" detail="*" recursive="yes"/>
+    <file path="QML::/" qm="*" detail="*" recursive="yes"/>
+</files>
+
+<files platform="AIX" section="trace">
+    <file path="MQD::/trace" detail="*"/>
+</files>
+
+<commands platform="AIX" section="mft">
+  <command name="fteRAS" output="fteras"/>
+</commands>
+
+<files platform="AIX" section="mft">
+  <file path="MQD::/mqft/logs" detail="*"/>
+</files>
+
+<files platform="AIX" section="mqweb">
+    <file path="WorkDir::/" detail="wlp_dump.zip"/>
+    <file path="WLP::/mq/etc" detail="mqweb.xml"/>
+</files>
+
+<commands platform="AIX" section="leak">
+  <command name="ps" args="-ef | egrep 'amqzlaa0|amqrmppa' | grep -v grep | awk '{ print $2 }' | xargs -I {} procmap -X {}" output="procmap-leak"/>
+  <command name="MQBIN::/amqspdbg" args="-m QM:: -v detail -f ZIP::amqspdbg-v_SQM::.out" qm="*" output="amqspdbg-v_SQM::"/>
+</commands>
+
+<commands platform="AIX" section="environ">
+  <command name="ps" args="-ef | awk '{ print $2 }' | xargs -I {} ps eww {}" output="environ_all"/>
+</commands>
+
+
+<commands platform="Windows">
+    <command name='"MQBIN::\dspmqver"' args="-f 722" output="stamp_dspmqver"/>
+    <command name='"MQBIN::\mqcertck"' args="QM::" qm="*" output="mqcertck_SQM::"/>
+    <command name="%SYSTEMROOT%\system32\hostname" output="stamp_hostname"/>
+    <command name="%SYSTEMROOT%\system32\reg" args='EXPORT HKLM\SOFTWARE\Wow6432Node\IBM\MQSeries "ZIP::WMQ_ISA_registry64.output"'/>
+    <command name="%SYSTEMROOT%\system32\reg" args='EXPORT HKLM\SOFTWARE\IBM\MQSeries "ZIP::WMQ_ISA_registry32.output"'/>
+    <command name='amquregn' args='"MQ::\BIN\amquregn.ctl"' output="WMQ_ISA_registry" env="mq"/>
+    <command name='set' output="set"/>
+    <command name="%SYSTEMROOT%\system32\tasklist.exe" args="/V"  output="tasklist_V"/>
+    <command name="%SYSTEMROOT%\system32\systeminfo.exe"  output="systeminfo" timeout="60"/>
+    <!-- tasklist /m fails to list 32 bit DLLs in Wow environments -->
+    <command name="if" args='not defined PROCESSOR_ARCHITEW6432 (tasklist /m) else echo Skipping tasklist as running in WOW' output="tasklist_M"/>
+    <command name="%SYSTEMROOT%\system32\tasklist.exe" args="/SVC" output="tasklist_SVC"/>
+    <command name="%SYSTEMROOT%\system32\ipconfig.exe"  args="/all" output="ipconfig"/>
+    <command name="%SYSTEMROOT%\system32\netstat.exe" args="-a -o" output="netstat" timeout="60"/>
+    <command name="%SYSTEMROOT%\system32\reg.exe" args='QUERY "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v ProductName' output="ProductName"/>
+    <command name="%SYSTEMROOT%\system32\cluster.exe" args="Resource /CHECK" output="ClusterResource"/>
+    <command name='"MQBIN::\dspmqver"'  output="dspmqver"/>
+    <command name='"MQBIN::\dspmqver"' args="-a" output="dspmqver-a"/>
+    <command name='"MQBIN::\dspmqver"' args="-i" output="dspmqver_i"/>
+    <command name='"MQBIN::\dspmqinst"' output="dspmqinst" env="mq"/>
+    <command name='"MQBIN::\dspmq"' args="-o all -x" output="dspmq"/>
+    <command name='dir' args="QMD:: /s/a" qm="*" output="datafiles_SQM::"/>
+    <command name='dir' args='/s "MQ::\amqp"' output="AmqpFiles"/>
+    <command name='dir' args='/s "MQ::\BIN"' output="BinFiles"/>
+    <command name='dir' args='/s "MQ::\BIN64"' output="BinFiles64"/>
+    <command name='dir' args='/s "MQ::\java\lib"' output="JavaLibFiles"/>
+    <command name='dir' args='/s "MQ::\java\lib64"' output="JavaLib64Files"/>
+    <command name='dir' args='/s "MQ::\mqexplorer"' output="explorerFiles" env="mq"/>
+    <command name='dir' args='/s "MQ::\"' output="installDirFiles"/>
+    <command name='"MQ::\java\jre\bin\java"' args="-version" output="JavaVersionMq"/>
+    <command name='"MQ::\gskit\jre\bin\java"' args="-version" output="JavaVersionGSKit" env="mq"/>
+    <command name='"MQBIN::\amqoamd.exe"' args="-m QM::" qm="*" output="amqoamd_SQM::" env="mq"/>
+    <command name='"MQBIN::\dmpmqaut.exe"' args="-m QM::" qm="*" output="dmpmqaut_SQM::"/>
+    <command name='dir'  args="%SYSTEMROOT%\system32\*mq*" output="DIR_System32_Mq"/>
+	<!--
+	<command name='wevtutil epl' args="Application WorkDir::Application.evt" output="Application"/>
+	<command name='wevtutil epl' args="HardwareEvents WorkDir::HardwareEvents.evt" output="HardwareEvents"/>
+	<command name='wevtutil epl' args="Security WorkDir::Security.evt" output="Security"/>
+	<command name='wevtutil epl' args="Setup WorkDir::Setup.evt" output="Setup"/>
+	<command name='wevtutil epl' args="System WorkDir::System.evt" output="System"/>
+	-->
+    <command name='pushd' args='"MQD::\errors"&amp;&amp;"MQBIN::\ffstsummary.exe"&amp;&amp;popd' output="ffstSummary" timeout="30"/>
+    <command name='net stats workstation | find "Statistics since"' output="uptime" />
+</commands>
+
+
+<commands platform="Windows" section="defs">
+        <command name='echo' args='DIS QMGR ALL | "MQBIN::\runmqsc" QM::' qm="*"         output="runmqsc_QMGR_SQM::"/>
+        <command name='echo' args='DIS AUTHINFO(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_AUTHINFO_SQM::"/>
+        <command name='echo' args='DIS CHANNEL(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"   output="runmqsc_CHANNEL_SQM::"/>
+        <command name='echo' args='DIS CHANNEL(*) CHLTYPE(MQTT) ALL | "MQBIN::\runmqsc" QM::' qm="*" output="runmqsc_CHANNEL_MQTT_SQM::"/>
+        <command name='echo' args='DIS QLOCAL(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"    output="runmqsc_QLOCAL_SQM::"/>
+        <command name='echo' args='DIS CHS(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"       output="runmqsc_CHS_SQM::"/>
+        <command name='echo' args='DIS CHS(*) SAVED ALL | "MQBIN::\runmqsc" QM::' qm="*" output="runmqsc_CHS_SAVED_SQM::"/>
+        <command name='echo' args='DIS CHS(*) CHLTYPE(MQTT) ALL | "MQBIN::\runmqsc" QM::' qm="*" output="runmqsc_CHS_MQTT_SQM::"/>
+        <command name='echo' args='DIS CHS(*) CHLTYPE(MQTT) CLIENTID(*) ALL | "MQBIN::\runmqsc" QM::' qm="*" output="runmqsc_CHS_MQTT_CLI_SQM::"/>
+        <command name='echo' args='DIS CHS(*) CHLTYPE(AMQP) ALL | "MQBIN::\runmqsc" QM::' qm="*" output="runmqsc_CHS_AMQP_SQM::"/>
+        <command name='echo' args='DIS CHS(*) CHLTYPE(AMQP) CLIENTID(*) ALL | "MQBIN::\runmqsc" QM::' qm="*" output="runmqsc_CHS_AMQP_CLI_SQM::"/>
+        <command name='echo' args='DIS CLUSQMGR(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_CLUSQMGR_SQM::"/>
+        <command name='echo' args='DIS PROCESS(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"   output="runmqsc_PROCESS_SQM::"/>
+        <command name='echo' args='DIS NAMELIST(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_NAMELIST_SQM::"/>
+        <command name='echo' args='DIS QALIAS(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"    output="runmqsc_QALIAS_SQM::"/>
+        <command name='echo' args='DIS QCLUSTER(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_QCLUSTER_SQM::"/>
+        <command name='echo' args='DIS QMODEL(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"    output="runmqsc_QMODEL_SQM::"/>
+        <command name='echo' args='DIS QREMOTE(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"   output="runmqsc_QREMOTE_SQM::"/>
+        <command name='echo' args='DIS QUEUE(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"     output="runmqsc_QUEUE_SQM::"/>
+        <command name='echo' args='DIS QSTATUS(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_SQM::"/>
+        <command name='echo' args='DIS QSTATUS(*) TYPE(HANDLE) ALL | "MQBIN::\runmqsc" QM::' qm="*"   output="runmqsc_QSTATUS_HANDLE_SQM::"/>
+        <command name='echo' args='DIS CONN(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"      output="runmqsc_CONN_SQM::"/>
+        <command name='echo' args='DIS SERVICE(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"   output="runmqsc_SERVICE_SQM::"/>
+        <command name='echo' args='DIS LISTENER (*) ALL | "MQBIN::\runmqsc" QM::' qm="*" output="runmqsc_LISTENER_SQM::"/>
+        <command name='echo' args='DIS SVSTATUS(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_SVSTATUS_SQM::"/>
+        <command name='echo' args='DIS LSSTATUS(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_LSSTATUS_SQM::"/>
+        <command name='echo' args='DIS QMSTATUS ALL | "MQBIN::\runmqsc" QM::' qm="*"     output="runmqsc_QMSTATUS_SQM::"/>
+        <command name='echo' args='DIS TOPIC(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"     output="runmqsc_TOPIC_SQM::"/>
+        <command name='echo' args='DIS TCLUSTER(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_TCLUSTER_SQM::"/>
+        <command name='echo' args='DIS SUB(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"       output="runmqsc_SUB_SQM::"/>
+        <command name='echo' args='DIS SBSTATUS(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_SBSTATUS_SQM::"/>
+        <command name='echo' args='DIS TPSTATUS(&apos;#&apos;) TYPE(SUB) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_SUB_SQM::" timeout="30"/>
+        <command name='echo' args='DIS TPSTATUS(&apos;#&apos;) TYPE(PUB) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_PUB_SQM::" timeout="30"/>
+        <command name='echo' args='DIS TPSTATUS(&apos;#&apos;) TYPE(TOPIC) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_TPSTATUS_TOPIC_SQM::" timeout="30"/>
+        <command name='echo' args='DIS PUBSUB ALL | "MQBIN::\runmqsc" QM::' qm="*"       output="runmqsc_PUBSUB_SQM::"/>
+        <command name='echo' args='DIS AUTHREC ALL | "MQBIN::\runmqsc" QM::' qm="*"      output="runmqsc_AUTHREC_SQM::" timeout="30"/>
+        <command name='echo' args='DIS AUTHSERV ALL | "MQBIN::\runmqsc" QM::' qm="*"     output="runmqsc_AUTHSERV_SQM::"/>
+        <command name='echo' args='DIS CHLAUTH(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"   output="runmqsc_CHLAUTH_SQM::"/>
+        <command name='echo' args='DIS COMMINFO(*) ALL | "MQBIN::\runmqsc" QM::' qm="*"  output="runmqsc_COMMINFO_SQM::"/>
+        <command name='echo' args='DIS POLICY(*) | "MQBIN::\runmqsc" QM::' qm="*"    output="runmqsc_POLICY_SQM::"/>
+</commands>
+
+<commands platform="Windows" section="cluster">
+        <command name='"MQBIN::\amqrfdm.exe"' args="-m QM:: -d" qm="*" output="amqrfdm_SQM::" env="mq"/>
+        <command name='"MQBIN::\amqrfdm.exe"' args="-m QM:: -h ZIP::" qm="*" output="amqrfdm_h_SQM::" env="mq"/>
+        <command name='"MQBIN::\dmpmqmsg.exe"' args="-m QM:: -i SYSTEM.CLUSTER.REPOSITORY.QUEUE -da -F ZIP::SCRQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCRQ" env="mq"/>
+        <command name='"MQBIN::\dmpmqmsg.exe"' args="-m QM:: -i SYSTEM.CLUSTER.COMMAND.QUEUE -da -F ZIP::SCCQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCCQ" env="mq"/>
+        <command name='"MQBIN::\dmpmqmsg.exe"' args="-m QM:: -i SYSTEM.CLUSTER.TRANSMIT.QUEUE -da -F ZIP::SCTQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCTQ" env="mq"/>
+        <command name='"MQBIN::\dmpmqmsg.exe"' args="-m QM:: -i SYSTEM.CLUSTER.HISTORY.QUEUE -da -F ZIP::SCHQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCHQ" env="mq"/>
+</commands>
+
+<commands platform="Windows" section="cs">
+    <command name="MQBIN::\amqspdbg" args="-m QM:: -f ZIP::amqspdbg_SQM::.out" qm="*" output="amqspdbg_SQM::"/>
+</commands>
+
+<commands platform="Windows" section="kernel">
+    <command name='"MQBIN::\amqldmpa"' args='-m QM:: -c K -d 15 -f "ZIP::amqldmpa_kernel_SQM::.out"' qm="*" output="amqldmpa_kernel_SQM::"/>
+</commands>
+
+<commands platform="Windows" section="dap">
+    <command name='"MQBIN::\amqldmpa"' args='-m QM:: -c A -d 15 -f "ZIP::amqldmpa_dap_SQM::.out"' qm="*" output="amqldmpa_dap_SQM::"/>
+    <command name='"MQBIN::\amqldmpa"' args='-m QM:: -c A -o 2 -d 15 -f "ZIP::amqldmpa_dap_atm_SQM::.out"' qm="*" output="amqldmpa_dap_atm_SQM::"/>
+    <command name='"MQBIN::\amqldmpa"' args='-m QM:: -c A -o 4 -d 15 -f "ZIP::amqldmpa_dap_alm_SQM::.out"' qm="*" output="amqldmpa_dap_alm_SQM::"/>
+    <command name='"MQBIN::\amqldmpa"' args='-m QM:: -c A -o 16 -d 15 -f "ZIP::amqldmpa_dap_aoc_SQM::.out"' qm="*" output="amqldmpa_dap_aoc_SQM::"/>
+</commands>
+
+<commands platform="Windows" section="topic">
+    <command name='"MQBIN::\amqldmpa"' args='-m QM:: -c T -d 15 -f "ZIP::amqldmpa_topic_SQM::.out"' qm="*" output="amqldmpa_topic_SQM::"/>
+</commands>
+
+<commands platform="Windows" section="logger">
+    <command name='"MQBIN::\amqldmpa"' args='-m QM:: -c H -d 15 -f "ZIP::amqldmpa_logger_SQM::.out"' qm="*" output="amqldmpa_logger_SQM::"/>
+</commands>
+
+<commands platform="Windows" section="selector">
+    <command name='"MQBIN::\amqldmpa"' args='-m QM:: -c S -d 15 -f "ZIP::amqldmpa_selector_SQM::.out"' qm="*" output="amqldmpa_selector_SQM::"/>
+</commands>
+
+<commands platform="Windows" section="mqweb">
+    <command name='"WLP::\bin\server"' args='dump mqweb --archive="WorkDir::/wlp_dump.zip"' output="wlp_dump" timeout="120"/>
+</commands>
+
+<files platform="Windows">
+    <file path="MQD::\errors" detail="*"/>
+    <file path="MQD::\exits" detail="*.log"   recursive="yes"/>
+    <file path="MQD::\exits64" detail="*.log"   recursive="yes"/>
+    <file path="QMD::\errors" qm="*" detail="*"/>
+    <file path="QMD::\" qm="*" detail="amqalchk.fil"/>
+    <file path="QML::\" qm="*" detail="amqhlctl.lfh"/>
+    <file path="QMD::\" qm="*" detail="qm.ini"/>
+    <file path="QMD::\" qm="*" detail="qmstatus.ini"/>
+    <file path="QMD::\" qm="*" detail="mqxr.*"/>
+    <file path="QMD::\" qm="*" detail="amqp.*"/>
+    <file path="%USERPROFILE%\ibm\MQ\workspace-MQI::\.metadata\" detail=".log" env="mq"/>
+    <file path="%USERPROFILE%\ibm\MQ\workspace-MQI::\.metadata\.plugins\com.ibm.mq.explorer.ui" detail="*" env="mq"/>
+    <file path="MQD::" detail="mqs.ini" />
+    <file path="MQ::" detail="mqpatch.dat" />
+    <file path="MQ::" detail="mqpatch.log" />
+    <file path="MQD::\mqxr\config" detail="*"/>
+    <file path="MQD::\web" detail="*" recursive="yes"/>
+</files>
+
+<files platform="Windows" section="QMGR">
+    <file path="QMD::\" qm="*" detail="*" recursive="yes"/>
+    <file path="QML::\" qm="*" detail="*" recursive="yes"/>
+</files>
+
+<files platform="Windows" section="trace">
+        <file path="MQD::\trace" detail="*"/>
+</files>
+
+<commands platform="Windows" section="mft">
+  <command name="fteRAS" output="fteras"/>
+</commands>
+
+<files platform="Windows" section="mft">
+  <file path="MQD::\mqft\logs" detail="*"/>
+</files>
+
+<files platform="Windows" section="mqweb">
+    <file path="WorkDir::\" detail="wlp_dump.zip"/>
+    <file path="WLP::\mq\etc" detail="mqweb.xml" />
+</files>
+
+
+<commands platform="OS/400">
+    <command name="/qsys.lib/qmqm.lib/dspmqver.pgm" args="-f 82" output="stamp_dspmqver"/>
+    <command name="/qsys.lib/qmqm.lib/mqcertck.pgm" args="QM::" qm="*" output="mqcertck_SQM::"/>
+    <command name="/usr/bin/uname" args="-n" output="stamp_hostname"/>
+    <command name="/qsys.lib/qmqm.lib/dspmqver.pgm" output="dspmqver"/>
+    <command name="/qsys.lib/qmqm.lib/dspmq.pgm" output="dspmq"/>
+    <command name="env" output="env"/>
+    <command name="ps" args="-ef" output="ps"/>
+    <command name="ipcs" args="-a" output="ipcsa"/>
+    <command name="/bin/ls" args="-alR QMD::" qm="*" output="datafiles_SQM::"/>
+</commands>
+
+<files platform="OS/400">
+    <file path="MQD::/errors" detail="*" e2a="yes"/>
+    <file path="MQD::" detail="mqs.ini"/>
+    <file path="QMD::" qm="*" detail="qm.ini" e2a="yes"/>
+    <file path="QMD::" qm="*" detail="qmstatus.ini" e2a="yes"/>
+    <file path="QMD::/errors" qm="*" detail="*" e2a="yes"/>
+</files>
+
+<commands platform="OS/400" section="cluster">
+    <command name='/qsys.lib/qmqm.lib/amqrfdm.pgm' args="-m QM:: -d" qm="*" output="amqrfdm_SQM::"/>
+    <command name='/qsys.lib/qmqm.lib/amqrfdm.pgm' args="-m QM:: -h ZIP::" qm="*" output="amqrfdm_h_SQM::"/>
+    <command name='/qsys.lib/qmqm.lib/dmpmqmsg.pgm' args="-m QM:: -i SYSTEM.CLUSTER.REPOSITORY.QUEUE -da -F ZIP::SCRQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCRQ" />
+    <command name='/qsys.lib/qmqm.lib/dmpmqmsg.pgm' args="-m QM:: -i SYSTEM.CLUSTER.COMMAND.QUEUE -da -F ZIP::SCCQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCCQ" />
+    <command name='/qsys.lib/qmqm.lib/dmpmqmsg.pgm' args="-m QM:: -i SYSTEM.CLUSTER.TRANSMIT.QUEUE -da -F ZIP::SCTQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCTQ" />
+    <command name='/qsys.lib/qmqm.lib/dmpmqmsg.pgm' args="-m QM:: -i SYSTEM.CLUSTER.HISTORY.QUEUE -da -F ZIP::SCHQ_SQM::.out" qm="*" output="dmpmqmsg_SQM::_SCHQ" />
+</commands>
+
+<commands platform="OS/400" section="defs">
+    <command name="echo" args='"DIS QMGR ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"           output="runmqsc_QMGR_SQM::"/>
+    <command name="echo" args='"DIS AUTHINFO(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"    output="runmqsc_AUTHINFO_SQM::"/>
+    <command name="echo" args='"DIS CHANNEL(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"   output="runmqsc_CHANNEL_SQM::"/>
+    <command name="echo" args='"DIS QLOCAL(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"    output="runmqsc_QLOCAL_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"       output="runmqsc_CHS_SQM::"/>
+    <command name="echo" args='"DIS CHS(*) SAVED ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*" output="runmqsc_CHS_SAVED_SQM::"/>
+    <command name="echo" args='"DIS CLUSQMGR(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_CLUSQMGR_SQM::"/>
+    <command name="echo" args='"DIS PROCESS(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"   output="runmqsc_PROCESS_SQM::"/>
+    <command name="echo" args='"DIS NAMELIST(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_NAMELIST_SQM::"/>
+    <command name="echo" args='"DIS QALIAS(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"    output="runmqsc_QALIAS_SQM::"/>
+    <command name="echo" args='"DIS QCLUSTER(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_QCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS QMODEL(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"    output="runmqsc_QMODEL_SQM::"/>
+    <command name="echo" args='"DIS QREMOTE(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"   output="runmqsc_QREMOTE_SQM::"/>
+    <command name="echo" args='"DIS QUEUE(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"     output="runmqsc_QUEUE_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"   output="runmqsc_QSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QSTATUS(*) TYPE(HANDLE) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"   output="runmqsc_QSTATUS_HANDLE_SQM::"/>
+    <command name="echo" args='"DIS CONN(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"      output="runmqsc_CONN_SQM::"/>
+    <command name="echo" args='"DIS SERVICE(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"   output="runmqsc_SERVICE_SQM::"/>
+    <command name="echo" args='"DIS LISTENER (*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*" output="runmqsc_LISTENER_SQM::"/>
+    <command name="echo" args='"DIS SVSTATUS(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_SVSTATUS_SQM::"/>
+    <command name="echo" args='"DIS LSSTATUS(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_LSSTATUS_SQM::"/>
+    <command name="echo" args='"DIS QMSTATUS ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"     output="runmqsc_QMSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TOPIC(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"     output="runmqsc_TOPIC_SQM::"/>
+    <command name="echo" args='"DIS TCLUSTER(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_TCLUSTER_SQM::"/>
+    <command name="echo" args='"DIS SUB(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"       output="runmqsc_SUB_SQM::"/>
+    <command name="echo" args='"DIS SBSTATUS(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_SBSTATUS_SQM::"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(SUB) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_TPSTATUS_SUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(PUB) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_TPSTATUS_PUB_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS TPSTATUS(&apos;#&apos;) TYPE(TOPIC) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_TPSTATUS_TOPIC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS PUBSUB ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"       output="runmqsc_PUBSUB_SQM::"/>
+    <command name="echo" args='"DIS AUTHREC ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"      output="runmqsc_AUTHREC_SQM::" timeout="30"/>
+    <command name="echo" args='"DIS AUTHSERV ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"     output="runmqsc_AUTHSERV_SQM::"/>
+    <command name="echo" args='"DIS CHLAUTH(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"   output="runmqsc_CHLAUTH_SQM::"/>
+    <command name="echo" args='"DIS COMMINFO(*) ALL" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"  output="runmqsc_COMMINFO_SQM::"/>
+    <command name="echo" args='"DIS POLICY(*)" | /qsys.lib/qmqm.lib/runmqsc.pgm QM::' qm="*"    output="runmqsc_POLICY_SQM::"/>
+</commands>
+
+<files platform="OS/400" section="trace">
+    <file path="MQD::/trace" detail="*"/>
+</files>
+
+<commands platform="OS/400" section="mft">
+  <command name="fteRAS" output="fteras"/>
+</commands>
+
+<files platform="OS/400" section="mft">
+  <file path="MQD::/mqft/logs" detail="*"/>
+</files>
+
+
+<commands platform="NONSTOP_KERNEL">
+    <command name="MQBIN::/dspmqver" args="-f 722" output="stamp_dspmqver"/>
+    <command name="/bin/uname" args="-n" output="stamp_hostname"/>
+    <command name="MQBIN::/dspmqver" output="dspmqver"/>
+    <command name="MQBIN::/dspmqver" args="-p 15" output="dspmqver_-p_15"/>
+    <command name="MQBIN::/dspmqver" args="-a" output="dspmqver_-a"/>
+    <command name="MQBIN::/dspmqver" args="-i" output="dspmqver_i"/>
+<!--    <command name="MQBIN::/dspmqinst" output="dspmqinst"/> -->
+    <command name="/bin/ipcs" args="-c" output="ipcs_c"/>
+    <command name="/bin/ipcs" args="-t" output="ipcs_t"/>
+    <command name="/bin/ipcs" args="-a" output="ipcs_a"/>
+    <command name="/bin/ls" args="-aRl MQD::" output="datafiles"/>
+    <command name="/bin/ls" args="-aRl MQD::/errors" output="errors"/>
+    <command name="/bin/ps" args="-efl" output="ps_efl"/>
+    <command name="/bin/ls" args="-aRl MQBIN::" output="binfiles"/>
+    <command name="/bin/ls" args="-aRl MQ::/lib" output="libfiles"/>
+    <command name="/bin/ls" args="-aRl MQ::/lib64" output="lib64files"/>
+    <command name="/bin/ls" args="-aRl MQ::/java/lib" output="javalibfiles"/>
+    <command name="/bin/ls" args="-aRl MQ::/java/lib64" output="javalib64files"/>
+    <command name="/bin/find" args="MQBIN:: -type f -print -exec /bin/sum {} \;" output="binfiles_sum"/>
+    <command name="/bin/find" args="MQ::/lib -type f -print -exec /bin/sum {} \;" output="libfiles_sum"/>
+    <command name="/bin/find" args="MQ::/lib64 -type f -print -exec /bin/sum {} \;" output="lib64files_sum"/>
+    <command name="/bin/find" args="MQ::/java/lib -type f -print -exec /bin/sum {} \;" output="javalibfiles_sum"/>
+    <command name="/bin/find" args="MQ::/java/lib64 -type f -print -exec /bin/sum {} \;" output="javalib64files_sum"/>
+    <command name="/bin/uname" args="-a" output="uname"/>
+    <command name="/bin/df" args="-k" output="df"/>
+<!-- <command name="MQBIN::/amqicdir" args="-a" output="amqicdir-a"/> -->
+    <command name="/bin/id" args="mqm" output="idmqm"/>
+    <command name="/bin/ls" args="-alR QMD::" qm="*" output="datafiles_SQM::"/>
+</commands>
+
+<files platform="NONSTOP_KERNEL">
+    <file path="MQD::/errors" detail="*"/>
+    <file path="MQD::" detail="mqs.ini"/>
+    <file path="QMD::" qm="*" detail="qm.ini"/>
+    <file path="QMD::" qm="*" detail="qmstatus.ini"/>
+    <file path="QMD::" qm="*" detail="amqalchk.fil"/>
+    <file path="QMD::" qm="*" detail="mqxr.*"/>
+    <file path="QMD::/errors" qm="*" detail="*"/>
+    <file path="QML::" qm="*" detail="amqhlctl.lfh"/>
+<!--    <file path="/etc/opt/mqm" detail="mqinst.ini" /> -->
+    <file path="MQ::" detail="mqpatch.dat" />
+    <file path="MQ::" detail="mqpatch.log" />
+</files>
+
+<files platform="NONSTOP_KERNEL" section="QMGR">
+    <file path="QMD::/" qm="*" detail="*" recursive="yes"/>
+    <file path="QML::/" qm="*" detail="*" recursive="yes"/>
+</files>
+
+<files platform="NONSTOP_KERNEL" section="trace">
+    <file path="MQD::/trace" detail="*"/>
+</files>
+
+</body>

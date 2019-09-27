@@ -1,0 +1,13 @@
+#! /bin/sh
+# (C) Copyright IBM Corp.  1997, 2005
+# The source code for this program is not published or otherwise
+# divested of its trade secrets, irrespective of what has been
+# deposited with the U.S. Copyright Office.
+#
+# make sure in same directory as this script
+#
+dir=`dirname $0`
+cd $dir
+#
+# placeholder
+#

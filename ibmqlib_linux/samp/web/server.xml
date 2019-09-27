@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Licensed Materials - Property of IBM
+
+      5724-H72
+
+Copyright IBM Corp. 2016, 2017 All Rights Reserved.
+
+US Government Users Restricted Rights - Use, duplication or
+disclosure restricted by GSA ADP Schedule Contract with
+IBM Corp.
+
+-->
+<!--
+This file defines the configuration for the mqweb server. Please do not 
+make changes to this file. Any changes made by users should be in the 
+referenced mqwebuser.xml file. 
+-->
+<server>
+    <include location="${wlp.install.dir}/mq/etc/mqweb.xml"/>
+    <include location="mqwebuser.xml"/>
+</server>

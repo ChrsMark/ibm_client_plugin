@@ -1,0 +1,183 @@
+#!/bin/sh
+# ********************************************************************
+# (C) Copyright IBM Corp.  2005
+# The source code for this program is not published or otherwise
+# divested of its trade secrets, irrespective of what has been
+# deposited with the U.S. Copyright Office.
+# ********************************************************************
+#
+# Local Install Verify
+# runs gsk8ver and checks results as expected
+#
+# this is a common script whose name is changed by packaging
+# work out library variable to use from OS at runtime
+# work out gsk7ver binary name from this scripts name and location at runtime
+# work out lib directory from this scripts name and location at runtime
+#
+#
+# path resolver
+# 
+resolve()
+{
+  if [ $1 = "." ]; then
+    result=`pwd -P`
+  else
+    if [ $1 = ".." ]; then
+      result=`pwd -P`
+      result=`dirname $result`
+    else
+      result="$1"
+    fi
+  fi
+ 
+  while [ -h "$result" ]; do
+    ls=`ls -ld "$result"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '/.*' > /dev/null; then
+      result="$link"
+    else
+      result="`dirname $result`/$link"
+    fi
+  done
+}
+#
+#remove parent/..
+#we know 1) doesnt start with ..
+#   and  2) there are no sym links
+#  because have handled these cases already
+#  this is recursive because parent may also be ..
+#  
+#
+remove_dotdot()
+{
+#
+# traverse right to left
+# when get a .. increment count
+# if count > 0 and not .. decrement count (skip)
+# when count=0 and not .. append
+#
+    arg=$1
+    count=0
+    lastdir=`basename $arg`
+    parent=`dirname $arg`
+    result=""
+while [ $parent != "/" ]; do
+     if [ $lastdir = ".." ]; then
+         count=`expr $count + 1`
+     elif [ $count -gt 0 ]; then
+         count=`expr $count - 1`
+     else
+          if [ -z "$result" ]; then
+            result="$lastdir"
+          else
+            result="$lastdir/$result"
+          fi
+     fi
+   lastdir=`basename $parent`
+   parent=`dirname $parent`
+done
+   result="/$lastdir/$result"
+#
+}
+verbose=""
+if [ X$1 = X"-x" ]
+then
+ verbose="1"
+ shift
+fi
+# this script lives in bin
+# so locate root from location of this script ($0)
+#
+dir=$0
+script=`basename $0`
+#
+#
+# if script contains _64 then lib directory is lib64
+# else lib directory is lib
+#
+gsklib="lib"
+gskver="gsk8ver"
+gsklink=`expr "$script" : '.*_64'`
+if [ $gsklink  != "0" ]; then
+  gsklib="lib64"
+  gskver="gsk8ver_64"
+fi
+#
+#check for _gcc295 and _32 as well
+#
+gsklink=`expr "$script" : '.*_gcc295'`
+if [ $gsklink  != "0" ]; then
+  gskver="gsk8ver_gcc295"
+fi
+gsklink=`expr "$script" : '.*_32'`
+if [ $gsklink  != "0" ]; then
+  gskver="gsk8ver_32"
+fi
+#
+while [ $dir != "/" ]; do
+   resolve $dir
+   dir=`dirname $result`
+   file="`basename $result`/$file"
+done
+#
+binpath="/`dirname $file`"
+remove_dotdot $binpath
+binpath=$result
+installpath=`dirname $binpath`
+expectpath="$installpath/$gsklib"
+if [ -n "$verbose" ]; then
+  echo "installpath is $installpath"
+fi
+# ----------------------------------------------------------------------
+# Determine host machine OS
+# ----------------------------------------------------------------------
+UNAME=`uname | awk ' { print $1 }'`
+# ----------------------------------------------------------------------
+# Setup LIBRARY PATH 
+# ----------------------------------------------------------------------
+#
+if [ "$UNAME" = "AIX" ]; then
+    eval LIBPATH=$installpath/$gsklib:$LIBPATH
+    export LIBPATH
+elif [ "$UNAME" = "HP-UX" ]; then
+    eval SHLIB_PATH=$installpath/$gsklib:$SHLIB_PATH
+    eval export SHLIB_PATH
+elif [ "$UNAME" = "SunOS" ]; then
+    eval LD_LIBRARY_PATH=$installpath/$gsklib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH
+    if [ "$gsklib" = "lib64" ]; then
+        eval LD_LIBRARY_PATH_64=$installpath/$gsklib:$LD_LIBRARY_PATH_64
+        export LD_LIBRARY_PATH_64
+    fi
+elif [ "$UNAME" = "Linux" ]; then
+    eval LD_LIBRARY_PATH=$installpath/$gsklib:$LD_LIBRARY_PATH
+    eval export LD_LIBRARY_PATH
+fi
+
+if [ -n "$verbose" ]; then
+  echo "libdir is $installpath/$gsklib"
+  echo "gskver is $gskver"
+fi
+if ls $expectpath*/* | grep libgsk.ssl* > /dev/null 2>&1 ; then
+#
+# run the version program and compare the results with the expected
+#
+  expect="Details of gskit in $expectpath"
+  actual=`$installpath/bin/$gskver | grep Details` 
+  if [ "$expect" != "$actual" ]; then
+    echo "Error: Verify Failed"
+    echo "Expected $expect"
+    echo "Got $actual"
+    exit 99
+  else
+    echo "Verified $actual"
+  fi
+else
+  if ls $expectpath*/* | grep libgsk.iccs* > /dev/null 2>&1 ; then
+    echo "Verified Details of Crypto Libraries"
+  else
+        echo "Error: Verify Failed"
+        echo "Expected Crypto Libraries"
+        exit 99
+  fi 
+fi

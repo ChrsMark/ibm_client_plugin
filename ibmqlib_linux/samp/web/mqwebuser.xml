@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+	<!--
+		Licensed Materials - Property of IBM
+
+		5724-H72
+
+		Copyright IBM Corp. 2016, 2017 All Rights Reserved.
+
+		US Government Users Restricted Rights - Use, duplication or
+		disclosure restricted by GSA ADP Schedule Contract with
+		IBM Corp.
+	-->
+	<!--
+		Sample mqwebuser.xml file, included by server.xml, to contain user
+		configuration for the mqweb server.
+	-->
+
+    <featureManager>
+        <feature>appSecurity-2.0</feature>
+    </featureManager>
+
+    <!--       
+    Default MQ security configuration allows HTTPS TLS v1.2 ONLY and no user access, 
+    refer to the IBM Knowledge Center section on "IBM MQ Console and REST API security" 
+    for details of how to configure security.
+    -->             
+    <sslDefault sslRef="mqDefaultSSLConfig"/>
+    <basicRegistry id="basic" realm="defaultRealm">
+    </basicRegistry>
+</server> 

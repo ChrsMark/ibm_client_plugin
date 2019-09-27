@@ -1,0 +1,119 @@
+#!/bin/sh
+#---------------------------------------------------------------------------
+# File Name : runmqras
+# Descriptive File Name : Run MQ crtmqras java program
+#---------------------------------------------------------------------------
+#   <copyright
+#   notice="lm-source-program"
+#   pids="5724-H72"
+#   years="2011,2018"
+#   crc="2530627716" >
+#   Licensed Materials - Property of IBM
+#
+#   5724-H72
+#
+#   (C) Copyright IBM Corp. 2011, 2018 All Rights Reserved.
+#
+#   US Government Users Restricted Rights - Use, duplication or
+#   disclosure restricted by GSA ADP Schedule Contract with
+#   IBM Corp.
+#   </copyright>
+#---------------------------------------------------------------------------
+# SCCSID: "@(#) MQMBID sn=p911-L181120.1 su=_YQvs9ezZEeidp6nbu5WJxQ pn=cmd/cs/runmqras.sh"
+#---------------------------------------------------------------------------
+# File Description :
+#
+# This script is used by ISA to run the MQ java
+# document collection utility: crtmqras
+#---------------------------------------------------------------------------
+
+# Set the platform specific default installation directory
+os=`uname`
+
+case $os in
+AIX)
+  MQ_DEFAULT_INSTALLATION_PATH=/usr/mqm
+  #  Put MQ first in LIBPATH to avoid GSKit loading issues
+  CRTMQENV_FLAGS="-s -k"
+  ;;
+
+*)
+  MQ_DEFAULT_INSTALLATION_PATH=/opt/mqm
+  CRTMQENV_FLAGS="-s"
+  ;;
+esac
+
+# MQ_INSTALLATION_PATH is modified at install time to be the correct
+# directory for the installation if MQ is not installed in the default
+# directory.
+MQ_INSTALLATION_PATH=$(dirname "$0")/..
+
+# Sets the platform specific defaults for each of the main arguments
+PROPS1=-DdefaultRasInput="$MQ_INSTALLATION_PATH/bin/isa.xml"
+PROPS2=-DdefaultRasWork="/tmp/runmqras_`date +''%y%m%d_%H''%M''%S`"
+PROPS3=-DMQ_INSTALLATION_NAME=$MQ_INSTALLATION_NAME
+
+# Call crtmqenv to set up the environment for this installation.
+if [ -x "$MQ_INSTALLATION_PATH/bin/crtmqenv" ]
+then
+  eval `"$MQ_INSTALLATION_PATH/bin/crtmqenv" $CRTMQENV_FLAGS`
+  export MQ_INSTALLATION_NAME
+  export CLASSPATH
+  export LIBPATH
+fi
+
+# First look for a copy of java in $MQ_JRE_PATH
+if [ -n "$MQ_JRE_PATH" ]
+then
+  java="$MQ_JRE_PATH/bin/java"
+fi
+
+# If we have not set java then see if there is one on the path
+if [ ! -n "$java" ]
+then
+  java=`which java 2>&1 | grep -v "no java"`
+fi
+
+# If we still have not set java then write an error message and exit
+if [ ! -n "$java" ]
+then
+  $MQ_INSTALLATION_PATH/bin/mqrc -b amq8599
+  exit
+fi
+
+if [ ! -n "$MQ_JAVA_INSTALL_PATH" ]
+then
+  MQ_JAVA_INSTALL_PATH=$MQ_INSTALLATION_PATH/java
+fi
+
+if [ "$MQ_ENV_MODE" = "64" ]
+then
+  MQ_LIB_PATH=$MQ_INSTALLATION_PATH/lib64
+  if [ ! -n "$MQ_JAVA_LIB_PATH" ]
+  then
+    MQ_JAVA_LIB_PATH=$MQ_JAVA_INSTALL_PATH/lib64
+  fi
+else
+  MQ_LIB_PATH=$MQ_INSTALLATION_PATH/lib
+  if [ ! -n "$MQ_JAVA_LIB_PATH" ]
+  then
+    MQ_JAVA_LIB_PATH=$MQ_JAVA_INSTALL_PATH/lib
+  fi
+fi
+
+CP=$MQ_JAVA_INSTALL_PATH/lib/com.ibm.mq.commonservices.jar:$MQ_JAVA_INSTALL_PATH/lib/com.ibm.mq.tools.ras.jar
+JLP=-Djava.library.path=$MQ_LIB_PATH:$MQ_JAVA_LIB_PATH
+
+# If MQ Appliance, don't echo the information below. Instead export JAVA_HOME variable - needed for liberty dumps.
+if [ "$($MQ_INSTALLATION_PATH/bin/dspmqver -bf 1)" != "IBM MQ Appliance" ]; then
+"$java" -version
+echo "$java" $MQ_JAVA_JVM_FLAG -cp "$CP" "$JLP" $PROPS1 $PROPS2 $PROPS3 crtmqras.Zipper $*
+else
+export JAVA_HOME=$MQ_JRE_PATH
+# Also export debug options on MQ Appliance to route JVM diagnostics to /var/mqm/diag if runmqras fails
+export IBM_HEAPDUMP=TRUE
+export IBM_HEAPDUMPDIR=/var/mqm/diag
+export IBM_JAVACOREDIR=/var/mqm/diag
+export IBM_COREDIR=/var/mqm/diag
+fi
+"$java" $MQ_JAVA_JVM_FLAG -cp "$CP" "$JLP" $PROPS1 $PROPS2 crtmqras.Zipper $*
